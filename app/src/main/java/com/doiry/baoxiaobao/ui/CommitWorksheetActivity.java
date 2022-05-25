@@ -11,12 +11,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.doiry.baoxiaobao.R;
 
-public class CommitWorksheet extends AppCompatActivity {
+public class CommitWorksheetActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
         Log.d(TAG, "onCreate: ");
-        setContentView(R.layout.add_worksheet);
+        setContentView(R.layout.commit_worksheet);
 
     }
 }

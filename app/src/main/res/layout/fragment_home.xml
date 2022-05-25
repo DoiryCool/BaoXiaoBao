@@ -4,11 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.home.HomeFragment">
 
     <ScrollView
+        android:id="@+id/scroll_sheet"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:fadingEdge="none"
+        android:fillViewport="true"
+        android:overScrollMode="ifContentScrolls"
+        tools:ignore="MissingConstraints">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -21,12 +27,12 @@
                 android:adjustViewBounds="true">
             </ImageView>
 
-            <ListView
+            <com.doiry.baoxiaobao.utils.sheetListView
                 android:id="@+id/lv_sheetlist"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            </ListView>
+            </com.doiry.baoxiaobao.utils.sheetListView>
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

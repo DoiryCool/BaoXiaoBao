@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.ui.NavigationUI;
 
 import com.doiry.baoxiaobao.R;
 
@@ -72,7 +73,6 @@ public class RegisterActivity extends AppCompatActivity {
         ivtCode = findViewById(R.id.tv_inviteCode);
         identity = findViewById(R.id.spi_identity);
 
-        getSupportActionBar().hide();
         listenButton();
     }
 

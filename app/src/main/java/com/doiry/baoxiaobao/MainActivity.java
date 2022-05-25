@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 
-import com.doiry.baoxiaobao.ui.CommitWorksheet;
+import com.doiry.baoxiaobao.ui.CommitWorksheetActivity;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, CommitWorksheet.class);
+                Intent intent = new Intent(MainActivity.this, CommitWorksheetActivity.class);
                 MainActivity.this.startActivity(intent);
             }
         });
