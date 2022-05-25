@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">baoxiaobao</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <string name="login_page_say">Welcome to Useless-tils</string>
+    <string name="login_name">Name : </string>
+    <string name="hint_login_name">name</string>
+    <string name="login_passwd">Password : </string>
+    <string name="hint_login_passwd">password</string>
+    <string name="bt_login">Login</string>
+    <string name="bt_registar">Registar</string>
+    <string-array name="identity">
+        <item>student</item>
+        <item>Teacher</item>
+    </string-array>
+    <string name="btn_bind">Bind</string>
+</resources>
