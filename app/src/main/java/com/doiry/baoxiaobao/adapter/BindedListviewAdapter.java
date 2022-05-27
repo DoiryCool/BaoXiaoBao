@@ -56,7 +56,7 @@ public class BindedListviewAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         BindedListviewBeans bindedListviewBeans = mBindInfo.get(position);
-        holder.iv_icon.setImageResource(bindedListviewBeans.image);
+        //holder.iv_icon.setImageResource("bindedListviewBeans.image");
         holder.tv_name.setText(bindedListviewBeans.name);
         holder.tv_en_number.setText(bindedListviewBeans.Emp_number);
         holder.iv_icon.requestFocus();

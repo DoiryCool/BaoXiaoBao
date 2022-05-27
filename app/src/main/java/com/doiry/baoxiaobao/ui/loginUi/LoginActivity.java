@@ -97,12 +97,12 @@ public class LoginActivity extends Activity {
                     public void onSuccess(String result) {
                         String msg = "";
                         int code = -1;
-                        int token = -1;
+                        String token = "";
                         try {
                             JSONObject jsonObject = new JSONObject(result);
                             code = jsonObject.optInt("code");
                             msg = jsonObject.optString("msg");
-                            token = jsonObject.optInt("token");
+                            token = jsonObject.optString("token");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -114,7 +114,7 @@ public class LoginActivity extends Activity {
                                 Editor editor = sp.edit();
                                 editor.putString("USER_NAME", userPhoneValue);
                                 editor.putString("PASSWORD",passwordValue);
-                                editor.putInt("token", token);
+                                editor.putString("token", token);
                                 editor.commit();
                             }
                             Intent intent = new Intent(LoginActivity.this,MainActivity.class);

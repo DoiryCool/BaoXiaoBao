@@ -5,23 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BindedListviewBeans {
-    public int image; // 行星图标
+    public String image; // 行星图标
     public String name; // 行星名称
     public String Emp_number; // 行星描述
 
-    public BindedListviewBeans(int image, String name, String number) {
+    public BindedListviewBeans(String image, String name, String number) {
         this.image = image;
         this.name = name;
         this.Emp_number = number;
     }
 
-    private static int[] iconArray = {
-            R.drawable.cat,
-            R.drawable.home_image,
-            R.drawable.home_image,
-            R.drawable.home_image,
-            R.drawable.cat,
-            R.drawable.cat
+    private static String[] iconArray = {
+
     };
     private static String[] nameArray = {
             "0000",
