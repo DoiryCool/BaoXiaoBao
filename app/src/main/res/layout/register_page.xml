@@ -6,9 +6,9 @@
     android:layout_height="match_parent">
 
     <TableLayout
-        android:id="@+id/tableLayout"
-        android:layout_width="304dp"
-        android:layout_height="277dp"
+        android:id="@+id/tb_layout_register"
+        android:layout_width="300dp"
+        android:layout_height="287dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,11 +20,11 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Identity"
-                android:textAlignment="center"
+                android:gravity="center"
+                android:text="Identity:"
+                android:textAlignment="gravity"
                 android:textColor="#616161"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -48,7 +48,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="Phone Number:"
-                android:textAlignment="center"
+                android:textAlignment="gravity"
                 android:textColor="#616161"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -111,7 +111,7 @@
                 android:layout_height="match_parent"
                 android:ems="10"
                 android:gravity="center"
-                android:hint="Enter Password"
+                android:hint="Not less than 8 digits"
                 android:inputType="textPassword"
                 android:textSize="16dp" />
         </TableRow>

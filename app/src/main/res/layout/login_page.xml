@@ -14,7 +14,7 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="389dp"
+            android:layout_height="298dp"
             android:layout_marginStart="18dp"
             android:layout_marginTop="230dp"
             android:layout_marginEnd="24dp"
@@ -33,10 +33,10 @@
                     <TextView
                         android:id="@+id/textView4"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Phone :"
-                        android:textAlignment="center"
+                        android:text="Phone:"
+                        android:textAlignment="gravity"
                         android:textColor="@color/black"
                         android:textSize="24sp"
                         android:textStyle="bold" />
@@ -44,7 +44,7 @@
                     <EditText
                         android:id="@+id/tv_login_phone"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:ems="10"
                         android:hint="Phone"
                         android:inputType="textPersonName"
@@ -59,7 +59,7 @@
                     <TextView
                         android:id="@+id/textView5"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="Password :"
                         android:textAlignment="center"
@@ -70,7 +70,7 @@
                     <EditText
                         android:id="@+id/tv_login_passwd"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:ems="10"
                         android:hint="Passwd"
                         android:inputType="textPersonName"
@@ -94,7 +94,7 @@
 
                 <CheckBox
                     android:id="@+id/cb_remberPasswd"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Remember Passwd"
                     android:textSize="20sp" />
@@ -106,7 +106,7 @@
 
                 <CheckBox
                     android:id="@+id/cb_autoLogin"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Auto Login"
                     android:textSize="20sp" />

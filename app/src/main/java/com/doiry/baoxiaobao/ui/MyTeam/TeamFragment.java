@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.doiry.baoxiaobao.R;
 import com.doiry.baoxiaobao.databinding.FragmentTeamBinding;
 
 import org.json.JSONArray;
@@ -71,6 +72,7 @@ public class TeamFragment extends Fragment {
     public void init(){
         token = sp.getInt("token", 1);
         getInfoUtil.getInfo(token, new getInfoUtil.getInfoCallback() {
+            @SuppressLint("ResourceType")
             @Override
             public void onSuccess(String result) {
                 try {
@@ -86,8 +88,9 @@ public class TeamFragment extends Fragment {
                         teachers.add(getName);
                     }
 
-                    ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(),
-                            android.R.layout.simple_spinner_item, teachers);
+                    @SuppressLint("ResourceType") ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(),
+                            R.layout.item_spinselect, teachers);
+                    adapter.setDropDownViewResource(R.layout.item_dialogspinselect);
                     handler.post(new Runnable() {
                         @Override
                         public void run() {

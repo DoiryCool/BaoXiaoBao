@@ -6,13 +6,18 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -46,6 +51,10 @@ public class RegisterActivity extends AppCompatActivity {
     EditText password = null;
     EditText email = null;
     EditText ivtCode = null;
+    TextView show_t_id = null;
+    EditText enter_t_id = null;
+    TableLayout tb_layout = null;
+    TableRow tb_row_t_id = null;
     Spinner identity = null;
 
     String phonestring = null;
@@ -54,6 +63,7 @@ public class RegisterActivity extends AppCompatActivity {
     String emailstring = null;
     String identitystring = null;
     String ivtCodeString = null;
+    String ENString = null;
 
     public static final String PREFERENCE_NAME = "SaveSetting";
     public static int MODE = Context.MODE_ENABLE_WRITE_AHEAD_LOGGING;
@@ -65,6 +75,17 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.register_page);
         bt_register_comfirm = (Button) findViewById(R.id.bt_comfirm);
         bt_register_back = (Button) findViewById(R.id.bt_back);
+        tb_layout = (TableLayout) findViewById(R.id.tb_layout_register);
+        tb_row_t_id = new TableRow(this);
+        show_t_id = new TextView(this);
+        enter_t_id = new EditText(this);
+        show_t_id.setText("Employee Number:");
+        show_t_id.setTextColor(this.getResources().getColor(R.color.register_text));
+        show_t_id.setTextSize(16);
+        show_t_id.setTypeface(null, Typeface.BOLD);
+        enter_t_id.setHint("Less than 11 bit.");
+        tb_row_t_id.addView(show_t_id);
+        tb_row_t_id.addView(enter_t_id);
 
         phone = findViewById(R.id.tv_phone);
         name = findViewById(R.id.tv_name);
@@ -92,6 +113,20 @@ public class RegisterActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        identity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {  //监听
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(adapterView.getItemAtPosition(i).toString().equals("Teacher")){
+                    tb_layout.addView(tb_row_t_id);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     public void register(View v){
@@ -101,6 +136,7 @@ public class RegisterActivity extends AppCompatActivity {
         emailstring = email.getText().toString();
         identitystring = identity.getSelectedItem().toString();
         ivtCodeString = ivtCode.getText().toString();
+        ENString = enter_t_id.getText().toString();
 
         //判断用户名
         if(namestring.length() == 0  ) {
@@ -117,7 +153,7 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
         registerUtil registerUtil = new registerUtil();
-        registerUtil.regToWeb(phonestring, namestring, passwordstring, emailstring, identitystring, ivtCodeString, new registerUtil.registerCallback() {
+        registerUtil.regToWeb(phonestring, namestring, passwordstring, emailstring, identitystring, ivtCodeString, ENString, new registerUtil.registerCallback() {
             @Override
             public void onSuccess(String result) {
                 String msg = "";
@@ -150,7 +186,6 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
 }
@@ -162,6 +197,7 @@ class registerUtil {
                         String es,
                         String is,
                         String cs,
+                        String ens,
                         final registerCallback callback){
 
         OkHttpClient client = new OkHttpClient.Builder().build();
@@ -172,6 +208,7 @@ class registerUtil {
         post.put("email", es);
         post.put("identity", is);
         post.put("inviteCode", cs);
+        post.put("t_id", ens);
         JSONObject jsonObject = new JSONObject(post);
         String jsonStr = jsonObject.toString();
         RequestBody requestBodyJson = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonStr);

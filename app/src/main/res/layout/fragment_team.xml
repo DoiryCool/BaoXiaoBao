@@ -4,16 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MyTeam.TeamFragment">
+    tools:context=".ui.MyTeam.TeamFragment"
+    android:background="@drawable/tg_wallpaper_blue"
+    >
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="331dp"
-        android:layout_height="117dp"
-        android:layout_marginTop="108dp"
+        android:layout_height="309dp"
+        android:layout_marginTop="316dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="13dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TableRow
             android:layout_width="match_parent"
@@ -23,7 +26,8 @@
                 android:id="@+id/tv_bindTeacher"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Choose Teacher : " />
+                android:text="Choose Teacher : "
+                android:textSize="18sp" />
 
             <Spinner
                 android:id="@+id/spin_bindTeacher"
@@ -32,10 +36,16 @@
 
         </TableRow>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="243dp"
+            android:orientation="vertical"></LinearLayout>
+
         <Button
             android:id="@+id/btn_bindRElation"
             android:layout_width="74dp"
             android:layout_height="43dp"
+            android:layout_gravity="center"
             android:text="@string/btn_bind" />
 
     </LinearLayout>

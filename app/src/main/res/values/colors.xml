@@ -10,4 +10,5 @@
     <color name="lowBlue">#CAE0F3</color>
     <color name="profile_show">#262B30</color>
     <color name="shallowBlue">#599BBE</color>
+    <color name="register_text">#616161</color>
 </resources>
