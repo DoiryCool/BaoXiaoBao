@@ -6,27 +6,29 @@
         <entry key="../../../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.183" />
         <entry key="app/src/main/res/drawable/bg_update_dialog.xml" value="0.189" />
+        <entry key="app/src/main/res/drawable/btn_normal.xml" value="0.267" />
         <entry key="app/src/main/res/drawable/ic_addnew.xml" value="0.183" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.183" />
         <entry key="app/src/main/res/drawable/ic_menu_gallery.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_menu_slideshow.xml" value="0.2635" />
         <entry key="app/src/main/res/drawable/side_nav_bar.xml" value="0.1965" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.17415730337078653" />
         <entry key="app/src/main/res/layout/add_worksheet.xml" value="0.19972826086956522" />
-        <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/commit_worksheet.xml" value="0.12182971014492754" />
+        <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.22962962962962963" />
+        <entry key="app/src/main/res/layout/commit_worksheet.xml" value="0.25" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.28396739130434784" />
         <entry key="app/src/main/res/layout/dialog_profile_image.xml" value="0.34193840579710144" />
         <entry key="app/src/main/res/layout/fragment_gallery.xml" value="0.3609375" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.22962962962962963" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_slideshow.xml" value="0.3609375" />
-        <entry key="app/src/main/res/layout/fragment_team.xml" value="0.17325227963525835" />
-        <entry key="app/src/main/res/layout/login_page.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_team.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/login_page.xml" value="0.2" />
         <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.23346303501945526" />
-        <entry key="app/src/main/res/layout/profile_page.xml" value="0.17274569402228976" />
+        <entry key="app/src/main/res/layout/profile_page.xml" value="0.22962962962962963" />
         <entry key="app/src/main/res/layout/register_page.xml" value="0.33" />
-        <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.75" />
-        <entry key="app/src/main/res/menu/main.xml" value="0.2421875" />
+        <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.33" />
+        <entry key="app/src/main/res/menu/main.xml" value="0.25" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.19" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
         <entry key="app/src/main/res/xml/network_security_config.xml" value="0.33152173913043476" />

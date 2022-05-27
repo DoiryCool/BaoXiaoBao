@@ -6,33 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".ui.MyTeam.TeamFragment">
 
-    <Button
-        android:id="@+id/btn_bindRElation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="161dp"
-        android:layout_marginEnd="162dp"
-        android:layout_marginBottom="224dp"
-        android:text="@string/btn_bind"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="327dp"
-        android:layout_height="186dp"
-        android:layout_marginStart="43dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="42dp"
-        android:layout_marginBottom="196dp"
+        android:layout_width="331dp"
+        android:layout_height="117dp"
+        android:layout_marginTop="108dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/btn_bindRElation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        tools:layout_editor_absoluteX="13dp">
 
         <TableRow
             android:layout_width="match_parent"
@@ -45,11 +26,18 @@
                 android:text="Choose Teacher : " />
 
             <Spinner
-                android:id="@+id/spinner2"
+                android:id="@+id/spin_bindTeacher"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content" />
 
         </TableRow>
+
+        <Button
+            android:id="@+id/btn_bindRElation"
+            android:layout_width="74dp"
+            android:layout_height="43dp"
+            android:text="@string/btn_bind" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -82,6 +82,7 @@ public class LoginActivity extends Activity {
                 //跳转界面
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 LoginActivity.this.startActivity(intent);
+                finish();
 
             }
         }
@@ -96,10 +97,12 @@ public class LoginActivity extends Activity {
                     public void onSuccess(String result) {
                         String msg = "";
                         int code = -1;
+                        int token = -1;
                         try {
                             JSONObject jsonObject = new JSONObject(result);
                             code = jsonObject.optInt("code");
                             msg = jsonObject.optString("msg");
+                            token = jsonObject.optInt("token");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -111,12 +114,13 @@ public class LoginActivity extends Activity {
                                 Editor editor = sp.edit();
                                 editor.putString("USER_NAME", userPhoneValue);
                                 editor.putString("PASSWORD",passwordValue);
+                                editor.putInt("token", token);
                                 editor.commit();
                             }
                             Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                             LoginActivity.this.startActivity(intent);
+                            finish();
                             Looper.loop();
-                            //finish();
                         }else{
                             Looper.prepare();
                             Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();

@@ -145,6 +145,7 @@ public class RegisterActivity extends AppCompatActivity {
                     editor.commit();//提交
                     Intent intent = new Intent(RegisterActivity.this, com.doiry.baoxiaobao.ui.loginUi.LoginActivity.class);
                     startActivity(intent);
+                    finish();
                     Looper.loop();
                 }
             }
