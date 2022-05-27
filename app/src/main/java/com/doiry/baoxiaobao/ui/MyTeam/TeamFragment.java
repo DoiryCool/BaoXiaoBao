@@ -12,13 +12,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.doiry.baoxiaobao.R;
+import com.doiry.baoxiaobao.adapter.BindedListviewAdapter;
+import com.doiry.baoxiaobao.beans.BindedListviewBeans;
 import com.doiry.baoxiaobao.databinding.FragmentTeamBinding;
 
 import org.json.JSONArray;
@@ -58,8 +62,8 @@ public class TeamFragment extends Fragment {
         sp = getActivity().getSharedPreferences(PREFERENCE_NAME,MODE);
         binding = FragmentTeamBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
         init();
+
         return root;
     }
 
@@ -70,6 +74,10 @@ public class TeamFragment extends Fragment {
     }
 
     public void init(){
+        List<BindedListviewBeans> binded_list = BindedListviewBeans.getDefaultList();
+        BindedListviewAdapter adapter = new BindedListviewAdapter(getActivity(), binded_list);
+        binding.bindedInfoListview.setAdapter(adapter);
+
         token = sp.getInt("token", 1);
         getInfoUtil.getInfo(token, new getInfoUtil.getInfoCallback() {
             @SuppressLint("ResourceType")
@@ -97,17 +105,13 @@ public class TeamFragment extends Fragment {
                             binding.spinBindTeacher.setAdapter(adapter);
                         }
                     });
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
-
         });
     }
 }
-
 
 class getInfoUtil {
     public static void getInfo(int token, final com.doiry.baoxiaobao.ui.MyTeam.getInfoUtil.getInfoCallback callback) {
