@@ -1,5 +1,6 @@
 package com.doiry.baoxiaobao.ui.profile;
 
+import static android.content.ContentValues.TAG;
 import static com.doiry.baoxiaobao.utils.configs.BASE_URL;
 import static com.doiry.baoxiaobao.utils.configs.PORT;
 
@@ -29,6 +30,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -91,16 +93,17 @@ public class ProfileFragment extends Fragment {
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     name = jsonObject.optString("name");
-                    if(jsonObject.optInt("type") == 1) {
+                    if(jsonObject.optInt("user_type") == 1) {
                         binding.usertypeShow.setText("Teacher");
                     }else {
                         binding.usertypeShow.setText("Student");
                     }
                     binding.usernameShow.setText(name);
+                    binding.refisterTimeShow.setText(jsonObject.optString("created_at").split("T")[0]);
+                    Log.d(TAG, "onSuccess: " + jsonObject);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
 
         });
@@ -109,7 +112,12 @@ public class ProfileFragment extends Fragment {
 
 class getProfileUtil {
     public static void getProfile(String phs, final getProfileUtil.getProfileCallback callback) {
-        OkHttpClient client = new OkHttpClient.Builder().build();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .callTimeout(120, TimeUnit.SECONDS)
+                .pingInterval(5, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS).build();
         Map m = new HashMap();
         m.put("phone", phs);
         JSONObject jsonObject = new JSONObject(m);

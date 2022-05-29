@@ -33,6 +33,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -98,11 +99,13 @@ public class LoginActivity extends Activity {
                         String msg = "";
                         int code = -1;
                         String token = "";
+                        int type = 1;
                         try {
                             JSONObject jsonObject = new JSONObject(result);
                             code = jsonObject.optInt("code");
                             msg = jsonObject.optString("msg");
                             token = jsonObject.optString("token");
+                            type = jsonObject.optInt("user_type");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -114,7 +117,8 @@ public class LoginActivity extends Activity {
                                 Editor editor = sp.edit();
                                 editor.putString("USER_NAME", userPhoneValue);
                                 editor.putString("PASSWORD",passwordValue);
-                                editor.putString("token", token);
+                                editor.putString("TOKEN", token);
+                                editor.putInt("USER_TYPE", type);
                                 editor.commit();
                             }
                             Intent intent = new Intent(LoginActivity.this,MainActivity.class);
@@ -179,7 +183,12 @@ class LoginUtil {
     public void checkAccount(String phs,
                             String ps,
                             final loginCallback callback) {
-        OkHttpClient client = new OkHttpClient.Builder().build();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .callTimeout(120, TimeUnit.SECONDS)
+                .pingInterval(5, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS).build();
         Map m = new HashMap();
         m.put("phone", phs);
         m.put("password", ps);
@@ -202,6 +211,7 @@ class LoginUtil {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 String result = response.body().string();
+                call.cancel();
                 callback.onSuccess(result);
             }
         });

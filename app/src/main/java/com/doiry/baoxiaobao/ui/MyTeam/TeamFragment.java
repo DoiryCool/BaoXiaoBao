@@ -6,16 +6,17 @@ import static com.doiry.baoxiaobao.utils.configs.PORT;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -25,7 +26,6 @@ import com.doiry.baoxiaobao.R;
 import com.doiry.baoxiaobao.adapter.BindedListviewAdapter;
 import com.doiry.baoxiaobao.beans.BindedListviewBeans;
 import com.doiry.baoxiaobao.databinding.FragmentTeamBinding;
-import com.doiry.baoxiaobao.ui.loginUi.LoginActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,6 +49,7 @@ public class TeamFragment extends Fragment {
 
     private FragmentTeamBinding binding;
     private String token;
+    private int type;
     public int seletedNum = 0;
 
     private SharedPreferences sp;
@@ -65,10 +66,13 @@ public class TeamFragment extends Fragment {
                 new ViewModelProvider(this).get(TeamViewModel.class);
 
         sp = getActivity().getSharedPreferences(PREFERENCE_NAME,MODE);
+        token = sp.getString("TOKEN", "");
+        type = sp.getInt("USER_TYPE", 1);
+
         binding = FragmentTeamBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         init();
-
+        setListener();
         return root;
     }
 
@@ -78,20 +82,59 @@ public class TeamFragment extends Fragment {
         binding = null;
     }
 
-    public void init(){
+    public void setListener() {
+        binding.btnBindRElation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(type == 2){
+                    BindUtil.bindRelation(token, teacher_uid.get(seletedNum), new BindUtil.BindCallback() {
+                        @SuppressLint("ResourceType")
+                        @Override
+                        public void onSuccess(String result) {
+                            String msg = "";
+                            int code = -1;
+                            try {
+                                JSONObject jsonObject = new JSONObject(result);
+                                code = jsonObject.optInt("code");
+                                msg = jsonObject.optString("msg");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            if(code == 0) {
+                                Looper.prepare();
+                                Toast.makeText(getActivity(), "Bind Success!", Toast.LENGTH_SHORT).show();
+                                Looper.loop();
+                            }else{
+                                Looper.prepare();
+                                Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                                Looper.loop();
+                            }
+                        }
+                    });
+                }
+                else {
+                    Toast.makeText(getActivity(), "Sorry , Teacher can't bind students now.", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+
         binding.spinBindTeacher.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 seletedNum = i;
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
+    }
+    public void init(){
+        teachers.clear();
+        teacher_uid.clear();
 
-        token = sp.getString("token", "");
         getInfoUtil.getInfo(token, new getInfoUtil.getInfoCallback() {
             @SuppressLint("ResourceType")
             @Override
@@ -106,7 +149,7 @@ public class TeamFragment extends Fragment {
                         teacher_uid.add(getUid);
                     }
                     @SuppressLint("ResourceType") ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                            R.layout.item_spinselect, teachers);
+                            R.layout.item_spinner_select_teacher, teachers);
                     adapter.setDropDownViewResource(R.layout.item_dialogspinselect);
                     handler.post(new Runnable() {
                         @Override
@@ -120,7 +163,7 @@ public class TeamFragment extends Fragment {
             }
         });
 
-        getBindedInfoUtil.getInfo(token, new getBindedInfoUtil.getBindedInfoCallback() {
+        getBindedInfoUtil.getInfo(token, type, new getBindedInfoUtil.getBindedInfoCallback() {
             @SuppressLint("ResourceType")
             @Override
             public void onSuccess(String result) {
@@ -133,13 +176,13 @@ public class TeamFragment extends Fragment {
 
                     for (int i= 0 ; i < jsonArray.length(); i++){
                         JSONObject info = jsonArray.getJSONObject(i);
+                        /*
                         iconArray[i] = info.getString("profile");
                         nameArray[i] = info.getString("name");
                         numberArray[i] = info.getString("t_id");
-                        bindedListviewBeansList.add(new BindedListviewBeans(iconArray[i], nameArray[i], numberArray[i]));
+                        */
+                        bindedListviewBeansList.add(new BindedListviewBeans(info.getString("profile"), info.getString("name"), info.getString("t_id")));
                     }
-                    Log.d(TAG, nameArray + "");
-
                     BindedListviewAdapter adapter = new BindedListviewAdapter(getActivity(), bindedListviewBeansList);
                     handler.post(new Runnable() {
                         @Override
@@ -150,24 +193,6 @@ public class TeamFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }
-        });
-
-        binding.btnBindRElation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BindUtil.bindRelation(token, teacher_uid.get(seletedNum), new BindUtil.BindCallback() {
-                    @SuppressLint("ResourceType")
-                    @Override
-                    public void onSuccess(String result) {
-                        try {
-                            JSONArray jsonArray = new JSONArray(result);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
             }
         });
     }
@@ -213,15 +238,19 @@ class getInfoUtil {
 }
 
 class getBindedInfoUtil {
-    public static void getInfo(String token, final com.doiry.baoxiaobao.ui.MyTeam.getBindedInfoUtil.getBindedInfoCallback callback) {
+    public static void getInfo(String token, int type, final com.doiry.baoxiaobao.ui.MyTeam.getBindedInfoUtil.getBindedInfoCallback callback) {
         OkHttpClient client = new OkHttpClient.Builder().build();
         Map m = new HashMap();
         m.put("token", token);
         JSONObject jsonObject = new JSONObject(m);
         String jsonStr = jsonObject.toString();
+        String sendPost = "/bindedInfo";
+        if(type == 1){
+            sendPost = "/bindedInfoT";
+        }
         RequestBody requestBodyJson = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonStr);
         Request request = new Request.Builder()
-                .url(BASE_URL + ":" + PORT + "/bindedInfo")
+                .url(BASE_URL + ":" + PORT + sendPost)
                 .addHeader("contentType", "application/json;charset=utf-8")
                 .post(requestBodyJson)
                 .build();

@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BindedListviewBeans {
-    public String image; // 行星图标
-    public String name; // 行星名称
-    public String Emp_number; // 行星描述
+    public String image;
+    public String name;
+    public String Emp_number;
 
     public BindedListviewBeans(String image, String name, String number) {
         this.image = image;
@@ -16,13 +16,27 @@ public class BindedListviewBeans {
     }
 
     private static String[] iconArray = {
-
+            "sss",
+            "sss",
+            "sss",
+            "sss",
+            "sss",
+            "sss",
+            "sss",
+            "sss",
+            "sss",
+            "sss"
     };
     private static String[] nameArray = {
             "0000",
             "0000",
             "0000",
             "0000",
+            "0000",
+            "0000",
+            "0000",
+            "0000",
+            "35436",
             "35436"
     };
     private static String[] numberArray = {
@@ -30,13 +44,18 @@ public class BindedListviewBeans {
             "0000",
             "0000",
             "0000",
+            "0000",
+            "0000",
+            "0000",
+            "0000",
+            "35436",
             "35436"
     };
 
     public static List<BindedListviewBeans> getDefaultList() {
         List<BindedListviewBeans> bindedListviewBeansList = new ArrayList<BindedListviewBeans>();
         for (int i = 1; i < iconArray.length; i++) {
-            bindedListviewBeansList.add(new BindedListviewBeans(iconArray[i - 1], nameArray[i - 1], numberArray[i - 1]));
+            bindedListviewBeansList.add(new BindedListviewBeans(iconArray[i], nameArray[i], numberArray[i]));
         }
         return bindedListviewBeansList;
     }

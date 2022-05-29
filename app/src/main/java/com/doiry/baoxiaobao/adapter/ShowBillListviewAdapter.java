@@ -13,14 +13,15 @@ import android.widget.Toast;
 
 import com.doiry.baoxiaobao.R;
 import com.doiry.baoxiaobao.beans.BindedListviewBeans;
+import com.doiry.baoxiaobao.beans.ShowBillListviewBeans;
 
 import java.util.List;
 
-public class BindedListviewAdapter extends BaseAdapter {
+public class ShowBillListviewAdapter extends BaseAdapter {
     private Context mContext;
-    private List<BindedListviewBeans> mBindInfo;
+    private List<ShowBillListviewBeans> mBindInfo;
 
-    public BindedListviewAdapter(Context context, List<BindedListviewBeans> bindedInfo_list){
+    public ShowBillListviewAdapter(Context context, List<ShowBillListviewBeans> bindedInfo_list){
         mContext = context;
         mBindInfo = bindedInfo_list;
     }
@@ -42,42 +43,41 @@ public class BindedListviewAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        if (convertView == null) { // 转换视图为空
-            holder = new ViewHolder(); // 创建一个新的视图持有者
-            // 根据布局文件item_list.xml生成转换视图对象
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_list_binded_info, null);
-            holder.iv_icon = convertView.findViewById(R.id.bindedInfoListview_Profile_image);
-            holder.tv_name = convertView.findViewById(R.id.bindedInfoListview_Name);
-            holder.tv_en_number = convertView.findViewById(R.id.bindedInfoListview_Employee_NUmber);
+        if (convertView == null) {
+            holder = new ViewHolder();
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_list_bill, null);
+            holder.iv_icon = convertView.findViewById(R.id.showBillProfileImage);
+            holder.tv_name = convertView.findViewById(R.id.showBillCommitterName);
+            holder.tv_amount = convertView.findViewById(R.id.showBillCommitterAmount);
+            holder.tv_description = convertView.findViewById(R.id.showBillDescription);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        BindedListviewBeans bindedListviewBeans = mBindInfo.get(position);
+        ShowBillListviewBeans showBillListviewBeans = mBindInfo.get(position);
         //holder.iv_icon.setImageResource("bindedListviewBeans.image");
-        holder.tv_name.setText(bindedListviewBeans.name);
-        holder.tv_en_number.setText(bindedListviewBeans.Emp_number);
+        holder.tv_name.setText(showBillListviewBeans.name);
+        holder.tv_amount.setText(showBillListviewBeans.amout);
+        holder.tv_description.setText(showBillListviewBeans.description);
         holder.iv_icon.requestFocus();
         return convertView;
     }
 
-    // 定义一个视图持有者，以便重用列表项的视图资源
     public final class ViewHolder {
-        public ImageView iv_icon; // 声明行星图片的图像视图对象
-        public TextView tv_name; // 声明行星名称的文本视图对象
-        public TextView tv_en_number; // 声明行星描述的文本视图对象
+        public ImageView iv_icon;
+        public TextView tv_name;
+        public TextView tv_amount;
+        public TextView tv_description;
     }
 
-    // 处理列表项的点击事件，由接口OnItemClickListener触发
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        @SuppressLint("DefaultLocale") String desc = String.format("您点击了第%d个行星，它的名字是%s", position + 1,
+        @SuppressLint("DefaultLocale") String desc = String.format("You clicked line %d , The name is %s", position + 1,
                 mBindInfo.get(position).name);
         Toast.makeText(mContext, desc, Toast.LENGTH_LONG).show();
     }
 
-    // 处理列表项的长按事件，由接口OnItemLongClickListener触发
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        @SuppressLint("DefaultLocale") String desc = String.format("您长按了第%d个行星，它的名字是%s", position + 1,
+        @SuppressLint("DefaultLocale") String desc = String.format("You clicked line %d , The name is %s", position + 1,
                 mBindInfo.get(position).name);
         Toast.makeText(mContext, desc, Toast.LENGTH_LONG).show();
         return true;

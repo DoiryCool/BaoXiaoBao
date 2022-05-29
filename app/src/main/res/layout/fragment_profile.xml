@@ -36,7 +36,7 @@
                 android:paddingStart="36dp"
                 android:text="Account"
                 android:textColor="@color/shallowBlue"
-                android:textSize="28sp"
+                android:textSize="24sp"
                 android:textStyle="bold">
 
             </TextView>
@@ -53,7 +53,7 @@
                     android:paddingStart="36dp"
                     android:text="012-3456-7890"
                     android:textColor="@color/profile_show"
-                    android:textSize="20sp"></TextView>
+                    android:textSize="18sp"></TextView>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -82,7 +82,7 @@
                     android:paddingStart="36dp"
                     android:text="Jerry Gu"
                     android:textColor="@color/profile_show"
-                    android:textSize="20sp"></TextView>
+                    android:textSize="18sp"></TextView>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -111,7 +111,7 @@
                     android:paddingStart="36dp"
                     android:text="Student"
                     android:textColor="@color/profile_show"
-                    android:textSize="20sp"></TextView>
+                    android:textSize="18sp"></TextView>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -142,7 +142,7 @@
                     android:paddingStart="36dp"
                     android:text="V1.0.0"
                     android:textColor="@color/profile_show"
-                    android:textSize="20sp"></TextView>
+                    android:textSize="18sp"></TextView>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -171,7 +171,7 @@
                     android:paddingStart="36dp"
                     android:text="English"
                     android:textColor="@color/profile_show"
-                    android:textSize="20sp"></TextView>
+                    android:textSize="18sp"></TextView>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -200,7 +200,7 @@
                     android:paddingStart="36dp"
                     android:text="2001-11-06"
                     android:textColor="@color/profile_show"
-                    android:textSize="20sp"></TextView>
+                    android:textSize="18sp"></TextView>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -214,6 +214,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingBottom="20dp"
                 android:paddingTop="10dp">
 
                 <Space
@@ -244,7 +245,8 @@
                 <Space
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:paddingBottom="20dp"/>
             </LinearLayout>
 
         </LinearLayout>

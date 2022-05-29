@@ -11,6 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.doiry.baoxiaobao.adapter.BindedListviewAdapter;
+import com.doiry.baoxiaobao.adapter.ShowBillListviewAdapter;
+import com.doiry.baoxiaobao.beans.BindedListviewBeans;
+import com.doiry.baoxiaobao.beans.ShowBillListviewBeans;
 import com.doiry.baoxiaobao.databinding.FragmentHomeBinding;
 
 import java.util.ArrayList;
@@ -42,11 +46,10 @@ public class HomeFragment extends Fragment {
         listSheetView = binding.lvSheetlist;
         listSheetView.setFocusable(false);
 
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 20 ; i++){
-            list.add(i + "");
-        }
-        ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, list.toArray());
+        List<ShowBillListviewBeans> showBillListviewBeans = new ArrayList<ShowBillListviewBeans>();
+        showBillListviewBeans = ShowBillListviewBeans.getDefaultList();
+        ShowBillListviewAdapter adapter = new ShowBillListviewAdapter(getActivity(), showBillListviewBeans);
+
         listSheetView.setAdapter(adapter);
         return 0;
     }

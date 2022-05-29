@@ -21,6 +21,8 @@
     <string name="bt_login">Login</string>
     <string name="bt_registar">Registar</string>
     <string name="btn_bind">Bind</string>
+    <string name="choose_teacher">Choose Teacher:</string>
+    <string name="commit_description">Description:</string>
     <string-array name="identity">
         <item>student</item>
         <item>Teacher</item>
