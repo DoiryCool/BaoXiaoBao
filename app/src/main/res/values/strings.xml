@@ -23,6 +23,8 @@
     <string name="btn_bind">Bind</string>
     <string name="choose_teacher">Choose Teacher:</string>
     <string name="commit_description">Description:</string>
+    <string name="default_name">Anonymity</string>
+    <string name="upload">Upload</string>
     <string-array name="identity">
         <item>student</item>
         <item>Teacher</item>

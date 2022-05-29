@@ -3,6 +3,7 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="100dp"
     android:orientation="horizontal">
@@ -32,9 +33,10 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="30dp"
                 android:paddingTop="10dp"
-                android:text="Jerry Gu"
+                android:text="@string/default_name"
                 android:textColor="@color/shallowBlue"
-                android:textSize="24sp"></TextView>
+                android:textSize="24sp"
+                tools:ignore="RtlSymmetry" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.ui.NavigationUI;
 
 import com.doiry.baoxiaobao.R;
 
@@ -73,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
-        setContentView(R.layout.register_page);
+        setContentView(R.layout.login_register_page);
         bt_register_comfirm = (Button) findViewById(R.id.bt_comfirm);
         bt_register_back = (Button) findViewById(R.id.bt_back);
         tb_layout = (TableLayout) findViewById(R.id.tb_layout_register);
