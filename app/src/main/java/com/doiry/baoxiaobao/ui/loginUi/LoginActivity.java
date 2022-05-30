@@ -58,9 +58,9 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.login_page);
+        setContentView(R.layout.login_page);//绑定登录页面
 
-        sp = getSharedPreferences(PREFERENCE_NAME,MODE);
+        sp = getSharedPreferences(PREFERENCE_NAME,MODE);//存储
 
         userPhone = (EditText) findViewById(R.id.tv_login_phone);
         password = (EditText) findViewById(R.id.tv_login_passwd);
@@ -69,17 +69,16 @@ public class LoginActivity extends Activity {
         btn_login = (Button) findViewById(R.id.bt_login);
         btn_register = (Button) findViewById(R.id.bt_register);
 
-        if(sp.getBoolean("ISCHECK", true))
+        if(sp.getBoolean("ISCHECK", true))//登录
         {
             //设置默认是记录密码状态
             rem_pw.setChecked(true);
             userPhone.setText(sp.getString("USER_NAME", ""));
             password.setText(sp.getString("PASSWORD", ""));
             //判断自动登陆多选框状态
-            if(sp.getBoolean("AUTO_ISCHECK", false))
+            if(sp.getBoolean("AUTO_ISCHECK", true))
             {
-                //设置默认是自动登录状态
-                auto_login.setChecked(true);
+
                 //跳转界面
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 LoginActivity.this.startActivity(intent);
@@ -110,7 +109,8 @@ public class LoginActivity extends Activity {
                             e.printStackTrace();
                         }
 
-                        if(code == 0) {
+                        if(code == 0)//success
+                        {
                             Looper.prepare();
                             Toast.makeText(LoginActivity.this, "登陆成功", Toast.LENGTH_SHORT).show();
                             if(rem_pw.isChecked()) {
@@ -215,7 +215,7 @@ class LoginUtil {
                 callback.onSuccess(result);
             }
         });
-    }
+    }//后端交互
 
     public interface loginCallback {
         void onSuccess(String result);
