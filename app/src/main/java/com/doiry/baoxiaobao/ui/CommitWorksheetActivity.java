@@ -262,8 +262,8 @@ class sendFileUtil {
         RequestBody fileBody = RequestBody.create(MEDIA_TYPE_PNG, file);
 
         RequestBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("file", "testImage.jpg", fileBody)
+                .setType(MultipartBody.ALTERNATIVE)
+                .addFormDataPart("file", null, fileBody)
                 .addFormDataPart("token", token)
                 .addFormDataPart("remark", desc)
                 .addFormDataPart("t_id", t_id)
