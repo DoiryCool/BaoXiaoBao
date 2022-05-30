@@ -1,8 +1,6 @@
 package com.doiry.baoxiaobao.ui.profile;
 
 import static android.content.ContentValues.TAG;
-import static com.doiry.baoxiaobao.utils.configs.BASE_URL;
-import static com.doiry.baoxiaobao.utils.configs.PORT;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -16,31 +14,17 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.doiry.baoxiaobao.databinding.FragmentProfileBinding;
-import com.doiry.baoxiaobao.ui.loginUi.LoginActivity;
+import com.doiry.baoxiaobao.interact.InfoInteract;
+import com.doiry.baoxiaobao.ui.login.LoginActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-
 public class ProfileFragment extends Fragment {
 
     private FragmentProfileBinding binding;
-    private String userPhoneValue;
 
     private SharedPreferences sp;
     public static final String PREFERENCE_NAME = "SaveSetting";
@@ -49,8 +33,6 @@ public class ProfileFragment extends Fragment {
     @SuppressLint("WrongConstant")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        ProfileViewModel teamViewModel =
-                new ViewModelProvider(this).get(ProfileViewModel.class);
 
         sp = getActivity().getSharedPreferences(PREFERENCE_NAME,MODE);
 
@@ -68,8 +50,6 @@ public class ProfileFragment extends Fragment {
                 getActivity().finish();
             }
         });
-
-
         return root;
     }
 
@@ -80,12 +60,10 @@ public class ProfileFragment extends Fragment {
     }
 
     public void init(){
-        userPhoneValue = sp.getString("USER_NAME", "");
-        binding.telephoneShow.setText(userPhoneValue);
-        getProfileUtil.getProfile(userPhoneValue, new getProfileUtil.getProfileCallback() {
+        binding.telephoneShow.setText(sp.getString("USER_NAME", ""));
+        InfoInteract.getProfile(sp.getString("USER_NAME", ""), new InfoInteract.getCallback() {
             @Override
             public void onSuccess(String result) {
-                String msg = "";
                 String name = "Default Name";
                 try {
                     JSONObject jsonObject = new JSONObject(result);
@@ -104,44 +82,5 @@ public class ProfileFragment extends Fragment {
             }
 
         });
-    }
-}
-
-class getProfileUtil {
-    public static void getProfile(String phs, final getProfileUtil.getProfileCallback callback) {
-        OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .callTimeout(120, TimeUnit.SECONDS)
-                .pingInterval(5, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .writeTimeout(60, TimeUnit.SECONDS).build();
-        Map m = new HashMap();
-        m.put("phone", phs);
-        JSONObject jsonObject = new JSONObject(m);
-        String jsonStr = jsonObject.toString();
-        RequestBody requestBodyJson = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonStr);
-        Request request = new Request.Builder()
-                .url(BASE_URL + ":" + PORT + "/userProfile")
-                .addHeader("contentType", "application/json;charset=utf-8")
-                .post(requestBodyJson)
-                .build();
-        final Call call = client.newCall(request);
-
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Log.e("onFilure", e.getMessage());
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                String result = response.body().string();
-                callback.onSuccess(result);
-            }
-        });
-    }
-
-    public interface getProfileCallback {
-        void onSuccess(String result);
     }
 }

@@ -6,10 +6,10 @@ import java.util.List;
 public class ShowBillListviewBeans {
     public String image;
     public String name;
-    public String amout;
+    public Float amout;
     public String description;
 
-    public ShowBillListviewBeans(String image, String name, String number, String description) {
+    public ShowBillListviewBeans(String image, String name, Float number, String description) {
         this.image = image;
         this.name = name;
         this.amout = number;
@@ -46,19 +46,7 @@ public class ShowBillListviewBeans {
             "35436"
     };
 
-    private static String[] numberArray = {
-            "0000",
-            "0000",
-            "3242",
-            "0000",
-            "35436",
-            "35436",
-            "35436",
-            "35436",
-            "35436",
-            "35436",
-            "35436",
-            "35436"
+    private static Float[] numberArray = {
     };
 
     private static String[] descriptionArray = {

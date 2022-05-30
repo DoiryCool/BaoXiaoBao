@@ -46,7 +46,6 @@ dependencies {
     implementation 'com.squareup.okio:okio:1.12.0'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.github.bumptech.glide:glide:4.8.0'
-    implementation files('libs/mysql-connector-java-5.1.49-bin.jar')
     testImplementation 'junit:junit:4.13.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

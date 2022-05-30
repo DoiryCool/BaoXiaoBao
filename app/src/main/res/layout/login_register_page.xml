@@ -9,16 +9,18 @@
     <TableLayout
         android:id="@+id/tb_layout_register"
         android:layout_width="328dp"
-        android:layout_height="404dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.456">
+        app:layout_constraintVertical_bias="0.456"
+        android:background="@drawable/edittext_style_1">
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/edittext_style_1">
 
             <TextView
@@ -29,18 +31,16 @@
                 android:text="Identity:"
                 android:textAlignment="gravity"
                 android:textColor="#616161"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <View
                 android:id="@+id/getParamsView"
                 android:layout_width="1dip"
                 android:layout_height="fill_parent"
-                android:layout_centerVertical="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
-                android:layout_toRightOf="@+id/spi_identity"
                 android:background="#EEEFFF" />
 
             <Spinner
@@ -54,6 +54,7 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/edittext_style_1">
 
             <TextView
@@ -64,17 +65,15 @@
                 android:text="Phone Number:"
                 android:textAlignment="gravity"
                 android:textColor="#616161"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <View
                 android:layout_width="1dip"
                 android:layout_height="fill_parent"
-                android:layout_centerVertical="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
-                android:layout_toRightOf="@+id/tv_login_phone"
                 android:background="#EEEFFF" />
 
             <EditText
@@ -85,12 +84,14 @@
                 android:gravity="center"
                 android:hint="Phone"
                 android:inputType="textPersonName"
-                android:textSize="16dp" />
+                android:textSize="16sp"
+                tools:ignore="TextFields" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/edittext_style_1">
 
             <TextView
@@ -101,17 +102,15 @@
                 android:text="@string/login_name"
                 android:textAlignment="center"
                 android:textColor="#616161"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <View
                 android:layout_width="1dip"
                 android:layout_height="fill_parent"
-                android:layout_centerVertical="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
-                android:layout_toRightOf="@+id/spi_identity"
                 android:background="#EEEFFF" />
 
             <EditText
@@ -128,6 +127,7 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/edittext_style_1">
 
             <TextView
@@ -138,17 +138,15 @@
                 android:text="@string/login_passwd"
                 android:textAlignment="center"
                 android:textColor="#616161"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <View
                 android:layout_width="1dip"
                 android:layout_height="fill_parent"
-                android:layout_centerVertical="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
-                android:layout_toRightOf="@+id/spi_identity"
                 android:background="#EEEFFF" />
 
             <EditText
@@ -159,12 +157,48 @@
                 android:gravity="center"
                 android:hint="Not less than 8 digits"
                 android:inputType="textPassword"
-                android:textSize="16dp" />
+                android:textSize="16sp" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/edittext_style_1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Repeat Password"
+                android:textAlignment="center"
+                android:textColor="#616161"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="1dip"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:background="#EEEFFF" />
+
+            <EditText
+                android:id="@+id/tv_repeat_reg_passwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="repeat"
+                android:inputType="textPassword"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/edittext_style_1">
 
             <TextView
@@ -175,17 +209,15 @@
                 android:text="Email:"
                 android:textAlignment="center"
                 android:textColor="#616161"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <View
                 android:layout_width="1dip"
                 android:layout_height="fill_parent"
-                android:layout_centerVertical="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
-                android:layout_toRightOf="@+id/spi_identity"
                 android:background="#EEEFFF" />
 
             <EditText
@@ -195,14 +227,16 @@
                 android:ems="10"
                 android:gravity="center"
                 android:hint="Enter Your Email"
-                android:inputType="textPersonName"
-                android:textSize="16dp" />
+                android:inputType="textEmailAddress"
+                android:textSize="16sp"
+                tools:ignore="TextFields" />
 
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/edittext_style_1">
 
             <TextView
@@ -213,17 +247,15 @@
                 android:text="Invite Code"
                 android:textAlignment="center"
                 android:textColor="#616161"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <View
                 android:layout_width="1dip"
                 android:layout_height="fill_parent"
-                android:layout_centerVertical="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
-                android:layout_toRightOf="@+id/spi_identity"
                 android:background="#EEEFFF" />
 
             <EditText
@@ -243,7 +275,7 @@
     <LinearLayout
         android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"

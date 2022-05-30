@@ -1,4 +1,4 @@
-package com.doiry.baoxiaobao.utils;
+package com.doiry.baoxiaobao.interact;
 
 
 import static com.doiry.baoxiaobao.utils.configs.BASE_URL;
@@ -23,7 +23,10 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class LoginUtil {
+/**
+ * The type Login interact.
+ */
+public class LoginInteract {
     public void checkAccount(String phs,
                              String ps,
                              final loginCallback callback) {

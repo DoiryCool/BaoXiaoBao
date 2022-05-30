@@ -1,7 +1,8 @@
-package com.doiry.baoxiaobao.utils;
+package com.doiry.baoxiaobao.interact;
 
 
 import static com.doiry.baoxiaobao.utils.configs.BASE_URL;
+import static com.doiry.baoxiaobao.utils.configs.PORT;
 
 import android.util.Log;
 
@@ -22,14 +23,11 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class RegisterUtil {
-    public void regToWeb(String phone,
-                         String name,
-                         String password,
-                         String email,
-                         String identity,
-                         String cs,
-                         String ens,
+/**
+ * The type Register interact.
+ */
+public class RegisterInteract {
+    public void regToWeb(String phone, String name, String password, String email, String identity, String cs, String ens,
                          final registerCallback callback){
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)
@@ -49,7 +47,7 @@ public class RegisterUtil {
         String jsonStr = jsonObject.toString();
         RequestBody requestBodyJson = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonStr);
         Request request = new Request.Builder()
-                .url(BASE_URL + ":8000/userRegister")
+                .url(BASE_URL + ":" + PORT + "/userRegister")
                 .addHeader("contentType", "application/json;charset=utf-8")
                 .post(requestBodyJson)
                 .build();
@@ -60,7 +58,6 @@ public class RegisterUtil {
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Log.e("onFilure", e.getMessage());
             }
-            String msg = "UNKNOW";
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 String result = response.body().string();

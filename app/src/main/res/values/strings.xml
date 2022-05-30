@@ -25,6 +25,7 @@
     <string name="commit_description">Description:</string>
     <string name="default_name">Anonymity</string>
     <string name="upload">Upload</string>
+    <string name="login_phone">Phone:</string>
     <string-array name="identity">
         <item>student</item>
         <item>Teacher</item>

@@ -19,13 +19,8 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.doiry.baoxiaobao.ui.MyTeam.TeamFragment"
+        android:name="com.doiry.baoxiaobao.ui.team.TeamFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_team" />
 
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.doiry.baoxiaobao.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
 </navigation>

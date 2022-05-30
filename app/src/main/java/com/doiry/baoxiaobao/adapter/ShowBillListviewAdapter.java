@@ -57,8 +57,8 @@ public class ShowBillListviewAdapter extends BaseAdapter {
         ShowBillListviewBeans showBillListviewBeans = mBindInfo.get(position);
         //holder.iv_icon.setImageResource("bindedListviewBeans.image");
         holder.tv_name.setText(showBillListviewBeans.name);
-        holder.tv_amount.setText(showBillListviewBeans.amout);
-        holder.tv_description.setText(showBillListviewBeans.description);
+        holder.tv_amount.setText(showBillListviewBeans.amout.toString());
+        holder.tv_description.setText("Remark : \n" + showBillListviewBeans.description);
         holder.iv_icon.requestFocus();
         return convertView;
     }

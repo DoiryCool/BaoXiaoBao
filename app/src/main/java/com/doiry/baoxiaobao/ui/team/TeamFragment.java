@@ -1,8 +1,4 @@
-package com.doiry.baoxiaobao.ui.MyTeam;
-
-import static android.content.ContentValues.TAG;
-import static com.doiry.baoxiaobao.utils.configs.BASE_URL;
-import static com.doiry.baoxiaobao.utils.configs.PORT;
+package com.doiry.baoxiaobao.ui.team;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -10,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,41 +15,31 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.doiry.baoxiaobao.R;
 import com.doiry.baoxiaobao.adapter.BindedListviewAdapter;
 import com.doiry.baoxiaobao.beans.BindedListviewBeans;
 import com.doiry.baoxiaobao.databinding.FragmentTeamBinding;
+import com.doiry.baoxiaobao.interact.InfoInteract;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import java.util.Objects;
 
 public class TeamFragment extends Fragment {
 
     private FragmentTeamBinding binding;
     private String token;
     private int type;
-    public int seletedNum = 0;
+    private int seletedNum = 0;
 
-    private SharedPreferences sp;
     public static final String PREFERENCE_NAME = "SaveSetting";
     public static int MODE = Context.MODE_ENABLE_WRITE_AHEAD_LOGGING;
+
     final Handler handler = new Handler();
     List<String> teachers = new ArrayList<>();
     List<String> teacher_uid = new ArrayList<>();
@@ -62,17 +47,15 @@ public class TeamFragment extends Fragment {
     @SuppressLint("WrongConstant")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        TeamViewModel teamViewModel =
-                new ViewModelProvider(this).get(TeamViewModel.class);
 
-        sp = getActivity().getSharedPreferences(PREFERENCE_NAME,MODE);
+        SharedPreferences sp = requireActivity().getSharedPreferences(PREFERENCE_NAME,MODE);
         token = sp.getString("TOKEN", "");
         type = sp.getInt("USER_TYPE", 1);
 
         binding = FragmentTeamBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         init();
-        setListener();
+        widgetListener();
         return root;
     }
 
@@ -82,12 +65,12 @@ public class TeamFragment extends Fragment {
         binding = null;
     }
 
-    public void setListener() {
+    public void widgetListener() {
         binding.btnBindRElation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(type == 2){
-                    BindUtil.bindRelation(token, teacher_uid.get(seletedNum), new BindUtil.BindCallback() {
+                    InfoInteract.bindRelation(token, teacher_uid.get(seletedNum), new InfoInteract.getCallback() {
                         @SuppressLint("ResourceType")
                         @Override
                         public void onSuccess(String result) {
@@ -100,7 +83,6 @@ public class TeamFragment extends Fragment {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-
                             if(code == 0) {
                                 Looper.prepare();
                                 Toast.makeText(getActivity(), "Bind Success!", Toast.LENGTH_SHORT).show();
@@ -119,8 +101,6 @@ public class TeamFragment extends Fragment {
 
             }
         });
-
-
         binding.spinBindTeacher.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -135,7 +115,7 @@ public class TeamFragment extends Fragment {
         teachers.clear();
         teacher_uid.clear();
 
-        getInfoUtil.getInfo(token, new getInfoUtil.getInfoCallback() {
+        InfoInteract.getInfo(token, new InfoInteract.getCallback() {
             @SuppressLint("ResourceType")
             @Override
             public void onSuccess(String result) {
@@ -163,24 +143,16 @@ public class TeamFragment extends Fragment {
             }
         });
 
-        getBindedInfoUtil.getInfo(token, type, new getBindedInfoUtil.getBindedInfoCallback() {
+        InfoInteract.getbindedInfo(token, type, new InfoInteract.getCallback() {
             @SuppressLint("ResourceType")
             @Override
             public void onSuccess(String result) {
                 try {
                     JSONArray jsonArray = new JSONArray(result);
-                    String[] iconArray = new String[jsonArray.length()];
-                    String[] nameArray = new String[jsonArray.length()];
-                    String[] numberArray = new String[jsonArray.length()];
                     List<BindedListviewBeans> bindedListviewBeansList = new ArrayList<BindedListviewBeans>();
 
                     for (int i= 0 ; i < jsonArray.length(); i++){
                         JSONObject info = jsonArray.getJSONObject(i);
-                        /*
-                        iconArray[i] = info.getString("profile");
-                        nameArray[i] = info.getString("name");
-                        numberArray[i] = info.getString("t_id");
-                        */
                         bindedListviewBeansList.add(new BindedListviewBeans(info.getString("profile"), info.getString("name"), info.getString("t_id")));
                     }
                     BindedListviewAdapter adapter = new BindedListviewAdapter(getActivity(), bindedListviewBeansList);
@@ -195,117 +167,5 @@ public class TeamFragment extends Fragment {
                 }
             }
         });
-    }
-}
-
-/**
- * @Description: Send post to web.
- */
-
-
-class getInfoUtil {
-    public static void getInfo(String token, final com.doiry.baoxiaobao.ui.MyTeam.getInfoUtil.getInfoCallback callback) {
-        OkHttpClient client = new OkHttpClient.Builder().build();
-        Map m = new HashMap();
-        m.put("token", token);
-        JSONObject jsonObject = new JSONObject(m);
-        String jsonStr = jsonObject.toString();
-        RequestBody requestBodyJson = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonStr);
-        Request request = new Request.Builder()
-                .url(BASE_URL + ":" + PORT + "/bindInfo")
-                .addHeader("contentType", "application/json;charset=utf-8")
-                .post(requestBodyJson)
-                .build();
-        final Call call = client.newCall(request);
-
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Log.e("onFilure", e.getMessage());
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                String result = response.body().string();
-                callback.onSuccess(result);
-            }
-        });
-    }
-
-    public interface getInfoCallback {
-        void onSuccess(String result);
-    }
-}
-
-class getBindedInfoUtil {
-    public static void getInfo(String token, int type, final com.doiry.baoxiaobao.ui.MyTeam.getBindedInfoUtil.getBindedInfoCallback callback) {
-        OkHttpClient client = new OkHttpClient.Builder().build();
-        Map m = new HashMap();
-        m.put("token", token);
-        JSONObject jsonObject = new JSONObject(m);
-        String jsonStr = jsonObject.toString();
-        String sendPost = "/bindedInfo";
-        if(type == 1){
-            sendPost = "/bindedInfoT";
-        }
-        RequestBody requestBodyJson = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonStr);
-        Request request = new Request.Builder()
-                .url(BASE_URL + ":" + PORT + sendPost)
-                .addHeader("contentType", "application/json;charset=utf-8")
-                .post(requestBodyJson)
-                .build();
-        final Call call = client.newCall(request);
-
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Log.e("onFilure", e.getMessage());
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                String result = response.body().string();
-                callback.onSuccess(result);
-            }
-        });
-    }
-
-    public interface getBindedInfoCallback {
-        void onSuccess(String result);
-    }
-}
-
-class BindUtil {
-    public static void bindRelation(String token, String uid, final com.doiry.baoxiaobao.ui.MyTeam.BindUtil.BindCallback callback) {
-        OkHttpClient client = new OkHttpClient.Builder().build();
-        Map m = new HashMap();
-        m.put("token", token);
-        m.put("t_id", uid);
-        JSONObject jsonObject = new JSONObject(m);
-        String jsonStr = jsonObject.toString();
-        RequestBody requestBodyJson = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonStr);
-        Request request = new Request.Builder()
-                .url(BASE_URL + ":" + PORT + "/bind")
-                .addHeader("contentType", "application/json;charset=utf-8")
-                .post(requestBodyJson)
-                .build();
-        final Call call = client.newCall(request);
-
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Log.e("onFilure", e.getMessage());
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                String result = response.body().string();
-                callback.onSuccess(result);
-            }
-        });
-    }
-
-    public interface BindCallback {
-        void onSuccess(String result);
     }
 }

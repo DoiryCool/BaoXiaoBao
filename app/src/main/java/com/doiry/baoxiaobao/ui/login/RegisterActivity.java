@@ -1,18 +1,13 @@
-package com.doiry.baoxiaobao.ui.loginUi;
-
-import static android.view.ViewGroup.*;
-import static com.doiry.baoxiaobao.utils.configs.BASE_URL;
+package com.doiry.baoxiaobao.ui.login;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,52 +17,30 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.doiry.baoxiaobao.R;
-import com.doiry.baoxiaobao.utils.RegisterUtil;
+import com.doiry.baoxiaobao.interact.RegisterInteract;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-
+/**
+ * The type Register activity.
+ */
 public class RegisterActivity extends AppCompatActivity {
+
     private Button mRegisterButton = null;
     private Button mBackButton = null;
-
     private EditText mPhoneEditText = null;
     private EditText mNameEditText = null;
     private EditText mPasswordEditText = null;
     private EditText mEmailEditText = null;
     private EditText mInviteEditText = null;
-    private TextView mTeacherIdView = null;
-    private View mLineView = null;
-    private View mParamsView = null;
     private EditText mIdEditText = null;
     private TableLayout mTableLayout = null;
     private TableRow mTableRow = null;
     private Spinner mIdentitySpinner = null;
-
-    private String mPhoneString = null;
-    private String mNameString = null;
-    private String mPasswordString = null;
-    private String mEmailString = null;
-    private String mIdentityString = null;
-    private String mInviteString = null;
-    private String mIdString = null;
 
     public static final String PREFERENCE_NAME = "SaveSetting";
     public static int MODE = Context.MODE_ENABLE_WRITE_AHEAD_LOGGING;
@@ -82,9 +55,9 @@ public class RegisterActivity extends AppCompatActivity {
         mBackButton = (Button) findViewById(R.id.bt_back);
         mTableLayout = (TableLayout) findViewById(R.id.tb_layout_register);
         mTableRow = new TableRow(this);
-        mTeacherIdView = new TextView(this);
+        TextView mTeacherIdView = new TextView(this);
         mIdEditText = new EditText(this);
-        mLineView = new View(this);
+        View mLineView = new View(this);
         mTeacherIdView.setLayoutParams(
                 findViewById(R.id.getParamsTextView).getLayoutParams()
         );
@@ -108,14 +81,17 @@ public class RegisterActivity extends AppCompatActivity {
         mInviteEditText = findViewById(R.id.tv_inviteCode);
         mIdentitySpinner = findViewById(R.id.spi_identity);
 
-        listenButton();
+        widgetListener();
     }
 
-    public void listenButton(){
+    /**
+     * Widget listener.
+     */
+    public void widgetListener() {
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                register(v);
+                register();
             }
         });
 
@@ -142,14 +118,17 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    public void register(View v){
-        mPhoneString = mPhoneEditText.getText().toString();
-        mNameString = mNameEditText.getText().toString();
-        mPasswordString = mPasswordEditText.getText().toString();
-        mEmailString = mEmailEditText.getText().toString();
-        mIdentityString = mIdentitySpinner.getSelectedItem().toString();
-        mInviteString = mInviteEditText.getText().toString();
-        mIdString = mIdEditText.getText().toString();
+    /**
+     * Register.
+     */
+    public void register(){
+        String mPhoneString = mPhoneEditText.getText().toString();
+        String mNameString = mNameEditText.getText().toString();
+        String mPasswordString = mPasswordEditText.getText().toString();
+        String mEmailString = mEmailEditText.getText().toString();
+        String mIdentityString = mIdentitySpinner.getSelectedItem().toString();
+        String mInviteString = mInviteEditText.getText().toString();
+        String mIdString = mIdEditText.getText().toString();
 
         if(mNameString.length() == 0  ) {
             Toast.makeText(getApplicationContext(),"用户名不能为空",Toast.LENGTH_SHORT).show();
@@ -163,15 +142,36 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"密码不能为空",Toast.LENGTH_SHORT).show();
             return;
         }
-        if(mPasswordString.length() == 0 ) {
-            Toast.makeText(getApplicationContext(),"密码不能为空",Toast.LENGTH_SHORT).show();
+        if(mPasswordString.length() < 8 ) {
+            Toast.makeText(getApplicationContext(),"密码不能小于8位",Toast.LENGTH_SHORT).show();
             return;
         }
-        RegisterUtil registerUtil = new RegisterUtil();
-        registerUtil.regToWeb(mPhoneString, mNameString, mPasswordString, mEmailString, mIdentityString, mInviteString, mIdString, new RegisterUtil.registerCallback() {
+        interactWithJS(mPhoneString,
+                mNameString,
+                mPasswordString,
+                mEmailString,
+                mIdentityString,
+                mInviteString,
+                mIdString);
+    }
+
+    /**
+     * Interact with js.
+     *
+     * @param phone    the phone
+     * @param name     the name
+     * @param password the password
+     * @param email    the email
+     * @param identity the identity
+     * @param invite   the invite
+     * @param id       the id
+     */
+    public void interactWithJS(String phone, String name, String password, String email, String identity, String invite, String id) {
+        RegisterInteract registerInteract = new RegisterInteract();
+        registerInteract.regToWeb(phone, name, password, email, identity, invite, id, new RegisterInteract.registerCallback() {
             @Override
             public void onSuccess(String result) {
-                String msg = "";
+                String msg = null;
                 int code = -1;
                 try {
                     JSONObject jsonObject = new JSONObject(result);
@@ -180,11 +180,7 @@ public class RegisterActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                if (code != 0){
-                    Looper.prepare();
-                    Toast.makeText(RegisterActivity.this, msg, Toast.LENGTH_SHORT).show();
-                    Looper.loop();
-                } else if (code == 0){
+                if (code == 0){
                     Looper.prepare();
                     Toast.makeText(RegisterActivity.this, msg, Toast.LENGTH_SHORT).show();
                     @SuppressLint("WrongConstant")
@@ -193,10 +189,14 @@ public class RegisterActivity extends AppCompatActivity {
 
                     editor.putString("Name", mNameEditText.getText().toString());
                     editor.putString("Password", mPasswordEditText.getText().toString());
-                    editor.commit();//提交
-                    Intent intent = new Intent(RegisterActivity.this, com.doiry.baoxiaobao.ui.loginUi.LoginActivity.class);
+                    editor.commit();
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(intent);
                     finish();
+                    Looper.loop();
+                } else {
+                    Looper.prepare();
+                    Toast.makeText(RegisterActivity.this, msg, Toast.LENGTH_SHORT).show();
                     Looper.loop();
                 }
             }
