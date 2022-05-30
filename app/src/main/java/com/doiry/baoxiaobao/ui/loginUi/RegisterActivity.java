@@ -78,11 +78,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
         setContentView(R.layout.login_register_page);
-
-        LayoutParams params= show_line_t_id.getLayoutParams();
-        params.height = 1;
-
-
         bt_register_comfirm = (Button) findViewById(R.id.bt_comfirm);
         bt_register_back = (Button) findViewById(R.id.bt_back);
         tb_layout = (TableLayout) findViewById(R.id.tb_layout_register);

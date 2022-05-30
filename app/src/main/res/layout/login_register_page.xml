@@ -8,7 +8,7 @@
 
     <TableLayout
         android:id="@+id/tb_layout_register"
-        android:layout_width="328dp"
+        android:layout_width="wrap_content"
         android:layout_height="404dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,7 +18,8 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="57dp"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/edittext_style_1">
 
             <TextView
@@ -52,6 +53,7 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/edittext_style_1">
 
             <TextView
@@ -89,6 +91,7 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/edittext_style_1">
 
             <TextView
@@ -126,6 +129,7 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/edittext_style_1">
 
             <TextView
@@ -163,6 +167,7 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/edittext_style_1">
 
             <TextView
@@ -201,6 +206,7 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/edittext_style_1">
 
             <TextView

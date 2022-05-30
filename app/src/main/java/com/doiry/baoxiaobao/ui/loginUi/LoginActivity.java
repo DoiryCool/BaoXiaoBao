@@ -53,7 +53,7 @@ public class LoginActivity extends Activity {
     public static final String PREFERENCE_NAME = "SaveSetting";
     public static int MODE = Context.MODE_ENABLE_WRITE_AHEAD_LOGGING;
 
-    @SuppressLint("WrongConstant")
+    @SuppressLint("WrongConstant")//
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -178,7 +178,7 @@ public class LoginActivity extends Activity {
 
 
 }
-
+//
 class LoginUtil {
     public void checkAccount(String phs,
                             String ps,
