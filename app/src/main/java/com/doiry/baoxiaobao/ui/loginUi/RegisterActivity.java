@@ -1,8 +1,10 @@
 package com.doiry.baoxiaobao.ui.loginUi;
 
+import static android.view.ViewGroup.*;
 import static com.doiry.baoxiaobao.utils.configs.BASE_URL;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +13,7 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +25,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.doiry.baoxiaobao.R;
 
@@ -52,6 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText email = null;
     EditText ivtCode = null;
     TextView show_t_id = null;
+    View show_line_t_id = null;
     EditText enter_t_id = null;
     TableLayout tb_layout = null;
     TableRow tb_row_t_id = null;
@@ -73,19 +78,28 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
         setContentView(R.layout.login_register_page);
+
+        LayoutParams params= show_line_t_id.getLayoutParams();
+        params.height = 1;
+
+
         bt_register_comfirm = (Button) findViewById(R.id.bt_comfirm);
         bt_register_back = (Button) findViewById(R.id.bt_back);
         tb_layout = (TableLayout) findViewById(R.id.tb_layout_register);
         tb_row_t_id = new TableRow(this);
         show_t_id = new TextView(this);
         enter_t_id = new EditText(this);
+        show_line_t_id = new View(this);
         show_t_id.setText("Employee Number:");
         show_t_id.setTextColor(this.getResources().getColor(R.color.register_text));
         show_t_id.setTextSize(16);
         show_t_id.setTypeface(null, Typeface.BOLD);
         enter_t_id.setHint("Less than 11 bit.");
         tb_row_t_id.addView(show_t_id);
+        tb_row_t_id.addView(show_line_t_id);
         tb_row_t_id.addView(enter_t_id);
+        tb_row_t_id.setBackgroundResource(R.drawable.edittext_style_1);
+
 
         phone = findViewById(R.id.tv_phone);
         name = findViewById(R.id.tv_name);

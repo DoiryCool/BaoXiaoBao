@@ -8,8 +8,8 @@
 
     <TableLayout
         android:id="@+id/tb_layout_register"
-        android:layout_width="315dp"
-        android:layout_height="341dp"
+        android:layout_width="328dp"
+        android:layout_height="404dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
