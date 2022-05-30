@@ -29,7 +29,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.doiry.baoxiaobao.MainActivity;
 import com.doiry.baoxiaobao.R;
 import com.doiry.baoxiaobao.adapter.BindedListviewAdapter;
 import com.doiry.baoxiaobao.beans.BindedListviewBeans;
@@ -84,8 +83,7 @@ public class CommitWorksheetActivity extends AppCompatActivity {
         setContentView(R.layout.commit_worksheet);
 
         ActivityCompat.requestPermissions(CommitWorksheetActivity.this,
-                new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                1);
+                new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
 
         btn_image = (ImageView) findViewById(R.id.commmitBack);
         show_image = (ImageView) findViewById(R.id.iv_show_image);
@@ -117,7 +115,6 @@ public class CommitWorksheetActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
                 intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
                 startActivityForResult(intent, 0);
             }
@@ -142,7 +139,6 @@ public class CommitWorksheetActivity extends AppCompatActivity {
                     public void onSuccess(String result) {
                         try {
                             JSONArray jsonArray = new JSONArray(result);
-
                             } catch (JSONException e) {
                             e.printStackTrace();
                         }

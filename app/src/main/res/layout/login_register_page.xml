@@ -22,6 +22,7 @@
             android:background="@drawable/edittext_style_1">
 
             <TextView
+                android:id="@+id/getParamsTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -32,6 +33,7 @@
                 android:textStyle="bold" />
 
             <View
+                android:id="@+id/getParamsView"
                 android:layout_width="1dip"
                 android:layout_height="fill_parent"
                 android:layout_centerVertical="true"

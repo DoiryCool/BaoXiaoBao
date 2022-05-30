@@ -42,9 +42,8 @@ public class BindedListviewAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        if (convertView == null) { // 转换视图为空
-            holder = new ViewHolder(); // 创建一个新的视图持有者
-            // 根据布局文件item_list.xml生成转换视图对象
+        if (convertView == null) {
+            holder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_list_binded_info, null);
             holder.iv_icon = convertView.findViewById(R.id.bindedInfoListview_Profile_image);
             holder.tv_name = convertView.findViewById(R.id.bindedInfoListview_Name);
@@ -61,16 +60,14 @@ public class BindedListviewAdapter extends BaseAdapter {
         return convertView;
     }
 
-    // 定义一个视图持有者，以便重用列表项的视图资源
     public final class ViewHolder {
-        public ImageView iv_icon; // 声明行星图片的图像视图对象
-        public TextView tv_name; // 声明行星名称的文本视图对象
-        public TextView tv_en_number; // 声明行星描述的文本视图对象
+        public ImageView iv_icon;
+        public TextView tv_name;
+        public TextView tv_en_number;
     }
 
-    // 处理列表项的点击事件，由接口OnItemClickListener触发
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        @SuppressLint("DefaultLocale") String desc = String.format("您点击了第%d个行星，它的名字是%s", position + 1,
+        @SuppressLint("DefaultLocale") String desc = String.format("%d，%s", position + 1,
                 mBindInfo.get(position).name);
         Toast.makeText(mContext, desc, Toast.LENGTH_LONG).show();
     }

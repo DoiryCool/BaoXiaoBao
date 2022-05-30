@@ -75,7 +75,6 @@ public class ShowBillListviewBeans {
             "35436",
             "35436"
     };
-
     public static List<ShowBillListviewBeans> getDefaultList() {
         List<ShowBillListviewBeans> showBillListviewBeans = new ArrayList<ShowBillListviewBeans>();
         for (int i = 1; i < iconArray.length; i++) {

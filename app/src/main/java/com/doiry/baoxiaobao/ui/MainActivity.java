@@ -1,14 +1,11 @@
-package com.doiry.baoxiaobao;
+package com.doiry.baoxiaobao.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
-import android.widget.Toast;
 
-import com.doiry.baoxiaobao.ui.CommitWorksheetActivity;
-import com.doiry.baoxiaobao.ui.loginUi.LoginActivity;
-import com.doiry.baoxiaobao.ui.loginUi.RegisterActivity;
+import com.doiry.baoxiaobao.R;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;
@@ -19,7 +16,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.doiry.baoxiaobao.databinding.ActivityMainBinding;
-import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 

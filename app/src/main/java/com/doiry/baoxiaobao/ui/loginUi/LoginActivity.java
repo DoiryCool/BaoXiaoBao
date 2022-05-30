@@ -24,8 +24,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.doiry.baoxiaobao.MainActivity;
+import com.doiry.baoxiaobao.ui.MainActivity;
 import com.doiry.baoxiaobao.R;
+import com.doiry.baoxiaobao.utils.LoginUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,11 +45,16 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class LoginActivity extends Activity {
+    private String mPhoneString;
+    private String mPasswordString;
 
-    private EditText userPhone, password;
-    private CheckBox rem_pw, auto_login;
-    private Button btn_login, btn_register;
-    private String userPhoneValue,passwordValue;
+    private EditText mUserName = null;
+    private EditText mPassword = null;
+    private CheckBox mRememberPassword = null;
+    private CheckBox mAutoLogin = null;
+    private Button mLoginButton = null;
+    private Button mRegisterButton = null;
+
     private SharedPreferences sp;
     public static final String PREFERENCE_NAME = "SaveSetting";
     public static int MODE = Context.MODE_ENABLE_WRITE_AHEAD_LOGGING;
@@ -56,43 +62,35 @@ public class LoginActivity extends Activity {
     @SuppressLint("WrongConstant")
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.login_page);//绑定登录页面
+        setContentView(R.layout.login_page);
+        sp = getSharedPreferences(PREFERENCE_NAME,MODE);
 
-        sp = getSharedPreferences(PREFERENCE_NAME,MODE);//存储
+        mUserName = (EditText) findViewById(R.id.tv_login_phone);
+        mPassword = (EditText) findViewById(R.id.tv_login_passwd);
+        mRememberPassword = (CheckBox) findViewById(R.id.cb_remberPasswd);
+        mAutoLogin = (CheckBox) findViewById(R.id.cb_autoLogin);
+        mLoginButton = (Button) findViewById(R.id.bt_login);
+        mRegisterButton = (Button) findViewById(R.id.bt_register);
 
-        userPhone = (EditText) findViewById(R.id.tv_login_phone);
-        password = (EditText) findViewById(R.id.tv_login_passwd);
-        rem_pw = (CheckBox) findViewById(R.id.cb_remberPasswd);
-        auto_login = (CheckBox) findViewById(R.id.cb_autoLogin);
-        btn_login = (Button) findViewById(R.id.bt_login);
-        btn_register = (Button) findViewById(R.id.bt_register);
+        if(sp.getBoolean("ISCHECK", true)) {
+            mRememberPassword.setChecked(true);
+            mUserName.setText(sp.getString("USER_NAME", ""));
+            mPassword.setText(sp.getString("PASSWORD", ""));
 
-        if(sp.getBoolean("ISCHECK", true))//登录
-        {
-            //设置默认是记录密码状态
-            rem_pw.setChecked(true);
-            userPhone.setText(sp.getString("USER_NAME", ""));
-            password.setText(sp.getString("PASSWORD", ""));
-            //判断自动登陆多选框状态
-            if(sp.getBoolean("AUTO_ISCHECK", true))
-            {
-
-                //跳转界面
+            if(sp.getBoolean("AUTO_ISCHECK", true)) {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 LoginActivity.this.startActivity(intent);
                 finish();
-
             }
         }
 
-        btn_login.setOnClickListener(new OnClickListener() {
+        mLoginButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                userPhoneValue = userPhone.getText().toString();
-                passwordValue = password.getText().toString();
+                mPhoneString = mUserName.getText().toString();
+                mPasswordString = mPassword.getText().toString();
                 LoginUtil LoginUtil=new LoginUtil();
-                LoginUtil.checkAccount(userPhoneValue, passwordValue, new LoginUtil.loginCallback() {
+                LoginUtil.checkAccount(mPhoneString, mPasswordString, new LoginUtil.loginCallback() {
                     @Override
                     public void onSuccess(String result) {
                         String msg = "";
@@ -113,10 +111,10 @@ public class LoginActivity extends Activity {
                         {
                             Looper.prepare();
                             Toast.makeText(LoginActivity.this, "登陆成功", Toast.LENGTH_SHORT).show();
-                            if(rem_pw.isChecked()) {
+                            if(mRememberPassword.isChecked()) {
                                 Editor editor = sp.edit();
-                                editor.putString("USER_NAME", userPhoneValue);
-                                editor.putString("PASSWORD",passwordValue);
+                                editor.putString("USER_NAME", mPhoneString);
+                                editor.putString("PASSWORD", mPasswordString);
                                 editor.putString("TOKEN", token);
                                 editor.putInt("USER_TYPE", type);
                                 editor.commit();
@@ -135,10 +133,9 @@ public class LoginActivity extends Activity {
             }
         });
 
-        //监听记住密码多选框按钮事件
-        rem_pw.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        mRememberPassword.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
-                if (rem_pw.isChecked()) {
+                if (mRememberPassword.isChecked()) {
                     System.out.println("记住密码已选中");
                     sp.edit().putBoolean("ISCHECK", true).commit();
                 }else {
@@ -149,10 +146,9 @@ public class LoginActivity extends Activity {
             }
         });
 
-        //监听自动登录多选框事件
-        auto_login.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        mAutoLogin.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
-                if (auto_login.isChecked()) {
+                if (mAutoLogin.isChecked()) {
                     System.out.println("自动登录已选中");
                     sp.edit().putBoolean("AUTO_ISCHECK", true).commit();
 
@@ -163,7 +159,7 @@ public class LoginActivity extends Activity {
             }
         });
 
-        btn_register.setOnClickListener(new OnClickListener() {
+        mRegisterButton.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -172,52 +168,5 @@ public class LoginActivity extends Activity {
                 finish();
             }
         });
-
-    }
-
-
-
-}
-
-class LoginUtil {
-    public void checkAccount(String phs,
-                            String ps,
-                            final loginCallback callback) {
-        OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .callTimeout(120, TimeUnit.SECONDS)
-                .pingInterval(5, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .writeTimeout(60, TimeUnit.SECONDS).build();
-        Map m = new HashMap();
-        m.put("phone", phs);
-        m.put("password", ps);
-        JSONObject jsonObject = new JSONObject(m);
-        String jsonStr = jsonObject.toString();
-        RequestBody requestBodyJson = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonStr);
-        Request request = new Request.Builder()
-                .url(BASE_URL + ":" + PORT + "/userLogin")
-                .addHeader("contentType", "application/json;charset=utf-8")
-                .post(requestBodyJson)
-                .build();
-        final Call call = client.newCall(request);
-
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Log.e("onFilure", e.getMessage());
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                String result = response.body().string();
-                call.cancel();
-                callback.onSuccess(result);
-            }
-        });
-    }//后端交互
-
-    public interface loginCallback {
-        void onSuccess(String result);
     }
 }
