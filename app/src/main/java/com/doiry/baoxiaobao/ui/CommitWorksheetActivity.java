@@ -10,14 +10,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -27,7 +23,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -38,10 +33,7 @@ import com.doiry.baoxiaobao.MainActivity;
 import com.doiry.baoxiaobao.R;
 import com.doiry.baoxiaobao.adapter.BindedListviewAdapter;
 import com.doiry.baoxiaobao.beans.BindedListviewBeans;
-import com.doiry.baoxiaobao.utils.DBUtil;
-import com.doiry.baoxiaobao.utils.HttpAssist;
 import com.doiry.baoxiaobao.utils.RealPathFromUriUtils;
-import com.mysql.jdbc.Connection;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,13 +41,10 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
