@@ -26,37 +26,47 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:gravity="center"
-                android:text="@string/choose_teacher"
-                android:textAlignment="center"
-                android:textColor="@color/register_text"
-                android:textStyle="bold"></TextView>
-
-            <Spinner
-                android:id="@+id/commmitBindedSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/action_settings"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="121dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="wrap_content"
+                android:background="@color/lowBlue"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center"
+                    android:text="@string/choose_teacher"
+                    android:textAlignment="center"
+                    android:textColor="@color/register_text"
+                    android:textStyle="bold"></TextView>
+
+                <Spinner
+                    android:id="@+id/commmitBindedSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/action_settings"
+                    tools:layout_editor_absoluteX="1dp"
+                    tools:layout_editor_absoluteY="121dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/register_text"></View>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="101dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/tv_show_choose_file"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="165dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="30dp"
@@ -70,10 +80,11 @@
                 <Button
                     android:id="@+id/btn_choose_file"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
                     android:text="choose file"
+                    android:textSize="8dp"
                     android:textAllCaps="false">
 
                 </Button>
@@ -84,30 +95,64 @@
             <ImageView
                 android:id="@+id/iv_show_image"
                 android:layout_width="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:layout_height="120dp">
 
             </ImageView>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:gravity="center"
-                android:text="@string/commit_description"
-                android:textAlignment="center"
-                android:textColor="@color/register_text"
-                android:textStyle="bold"></TextView>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/register_text"></View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center"
+                    android:text="@string/commit_description"
+                    android:textColor="@color/register_text"
+                    android:textStyle="bold"></TextView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Amount:"
+                    android:layout_marginLeft="80dp"
+                    android:gravity="center"
+                    android:textColor="@color/register_text"
+                    android:textStyle="bold">
+                </TextView>
+
+                <EditText
+                    android:id="@+id/ev_amount"
+                    android:layout_width="95dp"
+                    android:layout_height="wrap_content">
+
+                </EditText>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="￥"></TextView>
+
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/et_description"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
-                android:focusedByDefault="false"
                 android:background="@drawable/edittext_style_1"
+                android:focusedByDefault="false"
                 android:gravity="top"
                 android:inputType="textMultiLine">
 

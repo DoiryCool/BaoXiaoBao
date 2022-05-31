@@ -81,13 +81,13 @@ public class HomeFragment extends Fragment {
                                 new Float(info.getDouble("amount")),
                                 info.getString("remark")));
                     }
-
                     ShowBillListviewAdapter adapter = new ShowBillListviewAdapter(getActivity(), showBillListviewBeans);
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
                             listSheetView.setAdapter(adapter);
-                        }
+
+                            }
                     });
                 } catch (JSONException e) {
                     e.printStackTrace();

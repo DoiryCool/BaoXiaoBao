@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:fadingEdge="none"
         android:fillViewport="true"
+        android:background="@drawable/tg_wallpaper_blue"
         android:overScrollMode="ifContentScrolls"
         tools:ignore="MissingConstraints">
         <LinearLayout
