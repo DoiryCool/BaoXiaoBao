@@ -1,34 +1,24 @@
 package com.doiry.baoxiaobao.beans;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShowBillListviewBeans {
-    public String image;
+    public Bitmap bitmap;
     public String name;
     public Float amout;
     public String description;
 
-    public ShowBillListviewBeans(String image, String name, Float number, String description) {
-        this.image = image;
+    public ShowBillListviewBeans(Bitmap bitmap, String name, Float number, String description) {
+        this.bitmap = bitmap;
         this.name = name;
         this.amout = number;
         this.description = description;
     }
 
-    private static String[] iconArray = {
-            "0000",
-            "0000",
-            "54",
-            "0000",
-            "35436",
-            "35436",
-            "35436",
-            "35436",
-            "35436",
-            "35436",
-            "35436",
-            "35436"
+    private static Bitmap[] iconArray = {
     };
 
     private static String[] nameArray = {

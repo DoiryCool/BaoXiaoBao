@@ -1,6 +1,9 @@
 package com.doiry.baoxiaobao.ui;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -21,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+
+    public static final String PREFERENCE_NAME = "SaveSetting";
+    public static int MODE = Context.MODE_ENABLE_WRITE_AHEAD_LOGGING;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void init(){
+        @SuppressLint("WrongConstant") SharedPreferences sp = this.getSharedPreferences(PREFERENCE_NAME,MODE);
+        if(sp.getInt("USER_TYPE", -1) == 1){
+            binding.appBarMain.fab.setVisibility(View.GONE);
+        }
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

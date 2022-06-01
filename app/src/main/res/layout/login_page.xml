@@ -60,6 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:background="@drawable/edittext_style_1"
+                    android:focusedByDefault="false"
                     android:inputType="phone"
                     android:textSize="20sp" />
 
@@ -97,6 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:background="@drawable/edittext_style_1"
+                    android:focusedByDefault="false"
                     android:inputType="textPassword"
                     android:textSize="20sp" />
 

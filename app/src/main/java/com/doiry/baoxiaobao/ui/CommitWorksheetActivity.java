@@ -66,10 +66,10 @@ public class CommitWorksheetActivity extends AppCompatActivity {
     private File mFile;
     private String mFilePath;
     public int seletedNum = 0;
-    private String token;
     private int type;
+    private String token;
+    private String uid;
 
-    private SharedPreferences sp;
     public static final String PREFERENCE_NAME = "SaveSetting";
     public static int MODE = Context.MODE_ENABLE_WRITE_AHEAD_LOGGING;
     private List<String> teacher_uid = new ArrayList<>();
@@ -99,9 +99,10 @@ public class CommitWorksheetActivity extends AppCompatActivity {
 
     @SuppressLint("WrongConstant")
     public void init() {
-        sp = this.getSharedPreferences(PREFERENCE_NAME, MODE);
+        SharedPreferences sp = this.getSharedPreferences(PREFERENCE_NAME, MODE);
         token = sp.getString("TOKEN", "");
         type = sp.getInt("USER_TYPE", 1);
+        uid = sp.getString("uid", "");
 
         mBackImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +135,7 @@ public class CommitWorksheetActivity extends AppCompatActivity {
         mUploadFileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendFileUtil.sendFile(token, mFile, mRemarkEdit.getText().toString(), mAmountEdit.getText().toString(),teacher_uid.get(seletedNum), new sendFileUtil.sendFileCallback() {
+                sendFileUtil.sendFile(uid, mFile, mRemarkEdit.getText().toString(), teacher_uid.get(seletedNum), mAmountEdit.getText().toString(), new sendFileUtil.sendFileCallback() {
                     @SuppressLint("ResourceType")
                     @Override
                     public void onSuccess(String result) {
@@ -245,21 +246,21 @@ class getBindedInfoUtil {
 
 class sendFileUtil {
     private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/*");
-    public static void sendFile(String token, File file, String desc, String t_id, String amount, final sendFileUtil.sendFileCallback callback) {
+    public static void sendFile(String uid, File file, String desc, String t_id, String amount, final sendFileUtil.sendFileCallback callback) {
         OkHttpClient client = new OkHttpClient.Builder().build();
         RequestBody fileBody = RequestBody.create(MEDIA_TYPE_PNG, file);
 
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("file", null, fileBody)
-                .addFormDataPart("token", token)
+                .addFormDataPart("file", "jpg.jpg", fileBody)
+                .addFormDataPart("uid", uid)
                 .addFormDataPart("remark", desc)
                 .addFormDataPart("t_id", t_id)
                 .addFormDataPart("amount", amount)
                 .build();
 
         Request request = new Request.Builder()
-                .url(BASE_URL + ":" + PORT + "/image")
+                .url(BASE_URL + ":" + PORT + "/commit")
                 .addHeader("contentType", "application/json;charset=utf-8")
                 .post(requestBody)
                 .build();

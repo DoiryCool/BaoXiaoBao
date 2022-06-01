@@ -4,7 +4,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="100dp"
     android:orientation="horizontal">
 
@@ -17,8 +17,9 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp">
     </ImageView>
+
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
@@ -47,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:paddingStart="15dp"
+                    android:paddingStart="5dp"
                     android:text="AMOUNT:"
                     android:textColor="#1E1717"
                     android:textSize="16sp"></TextView>
@@ -56,7 +57,7 @@
                     android:id="@+id/showBillCommitterAmount"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="5dp"
                     android:gravity="center"
                     android:text="102">
 
@@ -73,23 +74,15 @@
             </LinearLayout>
         </LinearLayout>
 
-        <View
-            android:id="@+id/view1"
-            android:layout_width="1dip"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:background="#B6B5B5" />
-        <TextView
-            android:id="@+id/showBillDescription"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingStart="15dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
-            android:text="Description"
-            android:textSize="16sp"/>
-
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/showBillDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:paddingStart="15dp"
+        android:text="Description"
+        android:textSize="16sp" />
 </LinearLayout>

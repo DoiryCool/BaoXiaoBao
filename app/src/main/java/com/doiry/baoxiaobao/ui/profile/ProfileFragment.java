@@ -61,6 +61,7 @@ public class ProfileFragment extends Fragment {
 
     public void init(){
         binding.telephoneShow.setText(sp.getString("USER_NAME", ""));
+        binding.tvProfileUid.setText(sp.getString("uid", "1234589123"));
         InfoInteract.getProfile(sp.getString("USER_NAME", ""), new InfoInteract.getCallback() {
             @Override
             public void onSuccess(String result) {

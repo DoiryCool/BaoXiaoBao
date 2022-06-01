@@ -145,10 +145,11 @@ public class InfoInteract {
         });
     }
 
-    public static void getBills(String token, final InfoInteract.getCallback callback) {
+    public static void getBills(int type, String uid, final InfoInteract.getCallback callback) {
         OkHttpClient client = new OkHttpClient.Builder().build();
         Map m = new HashMap();
-        m.put("token", token);
+        m.put("uid", uid);
+        m.put("type", type);
         JSONObject jsonObject = new JSONObject(m);
         String jsonStr = jsonObject.toString();
         RequestBody requestBodyJson = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonStr);

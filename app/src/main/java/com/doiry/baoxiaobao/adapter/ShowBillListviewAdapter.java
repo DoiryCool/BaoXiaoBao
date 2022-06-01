@@ -17,7 +17,8 @@ import com.doiry.baoxiaobao.beans.ShowBillListviewBeans;
 
 import java.util.List;
 
-public class ShowBillListviewAdapter extends BaseAdapter {
+public class ShowBillListviewAdapter extends BaseAdapter implements
+        AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
     private Context mContext;
     private List<ShowBillListviewBeans> mBindInfo;
 
@@ -25,6 +26,7 @@ public class ShowBillListviewAdapter extends BaseAdapter {
         mContext = context;
         mBindInfo = bindedInfo_list;
     }
+
     @Override
     public int getCount() {
         return mBindInfo.size();
@@ -55,7 +57,7 @@ public class ShowBillListviewAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         ShowBillListviewBeans showBillListviewBeans = mBindInfo.get(position);
-        //holder.iv_icon.setImageResource("bindedListviewBeans.image");
+        holder.iv_icon.setImageBitmap(showBillListviewBeans.bitmap);
         holder.tv_name.setText(showBillListviewBeans.name);
         holder.tv_amount.setText(showBillListviewBeans.amout.toString());
         holder.tv_description.setText("Remark : \n" + showBillListviewBeans.description);

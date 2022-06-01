@@ -133,8 +133,9 @@ public class LoginActivity extends Activity {
             @Override
             public void onSuccess(String result) {
                 String msg = "";
-                int code = -1;
                 String token = "";
+                String uid = "";
+                int code = -1;
                 int type = 1;
                 try {
                     JSONObject jsonObject = new JSONObject(result);
@@ -142,6 +143,7 @@ public class LoginActivity extends Activity {
                     msg = jsonObject.optString("msg");
                     token = jsonObject.optString("token");
                     type = jsonObject.optInt("user_type");
+                    uid = jsonObject.optString("uid");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -153,6 +155,7 @@ public class LoginActivity extends Activity {
                         editor.putString("USER_NAME", phone);
                         editor.putString("PASSWORD", password);
                         editor.putString("TOKEN", token);
+                        editor.putString("uid", uid);
                         editor.putInt("USER_TYPE", type);
                         editor.commit();
                     }

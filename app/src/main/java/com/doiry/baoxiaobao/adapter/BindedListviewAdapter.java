@@ -2,6 +2,7 @@ package com.doiry.baoxiaobao.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.doiry.baoxiaobao.R;
 import com.doiry.baoxiaobao.beans.BindedListviewBeans;
 
@@ -53,7 +55,7 @@ public class BindedListviewAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         BindedListviewBeans bindedListviewBeans = mBindInfo.get(position);
-        //holder.iv_icon.setImageResource("bindedListviewBeans.image");
+        //holder.iv_icon.setImageBitmap(bitmap);
         holder.tv_name.setText(bindedListviewBeans.name);
         holder.tv_en_number.setText(bindedListviewBeans.Emp_number);
         holder.iv_icon.requestFocus();
@@ -72,7 +74,6 @@ public class BindedListviewAdapter extends BaseAdapter {
         Toast.makeText(mContext, desc, Toast.LENGTH_LONG).show();
     }
 
-    // 处理列表项的长按事件，由接口OnItemLongClickListener触发
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         @SuppressLint("DefaultLocale") String desc = String.format("您长按了第%d个行星，它的名字是%s", position + 1,
                 mBindInfo.get(position).name);
