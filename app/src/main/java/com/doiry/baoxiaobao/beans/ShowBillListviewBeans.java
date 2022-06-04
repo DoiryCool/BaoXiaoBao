@@ -1,63 +1,37 @@
 package com.doiry.baoxiaobao.beans;
 
 import android.graphics.Bitmap;
+import android.widget.CheckBox;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShowBillListviewBeans {
+    public Bitmap saveBitmap;
     public Bitmap bitmap;
     public String name;
+    public String time;
     public Float amout;
+    public Boolean check;
     public String description;
+    public String id;
 
-    public ShowBillListviewBeans(Bitmap bitmap, String name, Float number, String description) {
+    public ShowBillListviewBeans(Bitmap saveBitmap,
+                                 String name,
+                                 String time,
+                                 Float number,
+                                 String description,
+                                 Boolean check,
+                                 String logId,
+                                 Bitmap bitmap) {
         this.bitmap = bitmap;
         this.name = name;
+        this.time = time;
         this.amout = number;
+        this.check = check;
         this.description = description;
+        this.id = logId;
+        this.saveBitmap = saveBitmap;
     }
 
-    private static Bitmap[] iconArray = {
-    };
-
-    private static String[] nameArray = {
-            "0000",
-            "0000",
-            "4525",
-            "0000",
-            "35436",
-            "35436",
-            "35436",
-            "35436",
-            "35436",
-            "35436",
-            "35436",
-            "35436"
-    };
-
-    private static Float[] numberArray = {
-    };
-
-    private static String[] descriptionArray = {
-            "0000",
-            "0000",
-            "0000",
-            "0000",
-            "35436",
-            "35436",
-            "35436",
-            "35436",
-            "35436",
-            "35436",
-            "35436",
-            "35436"
-    };
-    public static List<ShowBillListviewBeans> getDefaultList() {
-        List<ShowBillListviewBeans> showBillListviewBeans = new ArrayList<ShowBillListviewBeans>();
-        for (int i = 1; i < iconArray.length; i++) {
-            showBillListviewBeans.add(new ShowBillListviewBeans(iconArray[i], nameArray[i], numberArray[i], descriptionArray[i]));
-        }
-        return showBillListviewBeans;
-    }
 }

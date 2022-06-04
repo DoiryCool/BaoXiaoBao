@@ -10,6 +10,7 @@
         <entry key="app/src/main/res/drawable/bg_update_dialog.xml" value="0.189" />
         <entry key="app/src/main/res/drawable/btn_normal.xml" value="0.267" />
         <entry key="app/src/main/res/drawable/dialogStyle.xml" value="0.19" />
+        <entry key="app/src/main/res/drawable/dialog_style.xml" value="0.19" />
         <entry key="app/src/main/res/drawable/edittext_style_1.xml" value="0.118" />
         <entry key="app/src/main/res/drawable/ic_addnew.xml" value="0.183" />
         <entry key="app/src/main/res/drawable/ic_baseline_arrow_back_ios_24.xml" value="0.2305" />
@@ -41,7 +42,7 @@
         <entry key="app/src/main/res/layout/item_spinner_select_teacher.xml" value="0.35625" />
         <entry key="app/src/main/res/layout/item_spinselect.xml" value="0.34193840579710144" />
         <entry key="app/src/main/res/layout/layout_button.xml" value="0.1859375" />
-        <entry key="app/src/main/res/layout/layout_dialog_confirm.xml" value="0.18645833333333334" />
+        <entry key="app/src/main/res/layout/layout_dialog_confirm.xml" value="0.4532871972318339" />
         <entry key="app/src/main/res/layout/login_page.xml" value="0.25" />
         <entry key="app/src/main/res/layout/login_register_page.xml" value="0.33" />
         <entry key="app/src/main/res/layout/message_center_activity.xml" value="0.1859375" />

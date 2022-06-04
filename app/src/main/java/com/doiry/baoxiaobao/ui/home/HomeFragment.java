@@ -4,6 +4,7 @@ import static com.doiry.baoxiaobao.utils.configs.BASE_URL;
 import static com.doiry.baoxiaobao.utils.configs.FILE_PORT;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -39,12 +40,18 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
-    private ListView msheetListView;
+    private ListView mSheetListView;
+    private CountDownLatch countDownLatch = new CountDownLatch(2);
     Bitmap bitmap;
+
+    List<ShowBillListviewBeans> showBillListviewBeans;
+    List<Bitmap> bitmaps;
+    ShowBillListviewAdapter adapter;
 
     String uid = null;
     int type = -1;
@@ -60,6 +67,8 @@ public class HomeFragment extends Fragment {
 
         confirmDialog = new ConfirmDialog(getContext(), true);
         binding = FragmentHomeBinding.inflate(inflater, container, false);
+        showBillListviewBeans = new ArrayList<ShowBillListviewBeans>();
+        adapter = new ShowBillListviewAdapter(getActivity(), showBillListviewBeans);
 
         @SuppressLint("WrongConstant") SharedPreferences sp = requireActivity().getSharedPreferences(PREFERENCE_NAME,MODE);
         uid = sp.getString("uid", "");
@@ -79,8 +88,8 @@ public class HomeFragment extends Fragment {
 
     public int initView(){
 
-        msheetListView = binding.lvSheetlist;
-        msheetListView.setFocusable(false);
+        mSheetListView = binding.lvSheetlist;
+        mSheetListView.setFocusable(false);
 
         InfoInteract.getBills(type, uid, new InfoInteract.getCallback() {
             @SuppressLint("ResourceType")
@@ -88,53 +97,55 @@ public class HomeFragment extends Fragment {
             public void onSuccess(String result) {
                 try {
                     JSONArray jsonArray = new JSONArray(result);
-                    List<ShowBillListviewBeans> showBillListviewBeans = new ArrayList<ShowBillListviewBeans>();
-                    for (int i= 0 ; i < jsonArray.length(); i++){
+                    bitmaps = new ArrayList<Bitmap>();
+                    for (int i = 0 ; i < jsonArray.length(); i++){
                         JSONObject info = jsonArray.getJSONObject(i);
-                        bitmap = Glide.with(getActivity())
-                                .asBitmap()
-                                .load(BASE_URL + ":" + FILE_PORT + "/" + info.getString("file"))
-                                .centerCrop()
-                                .into(60, 60)
-                                .get();
+                        int finalI = i;
+
                         showBillListviewBeans.add(new ShowBillListviewBeans(
-                                bitmap,
+                                Glide.with(getActivity())
+                                        .asBitmap()
+                                        .load(BASE_URL + ":" + FILE_PORT + "/" + info.getString("file"))
+                                        .submit().get(),
                                 info.getString("name"),
+                                info.getString("set_time").split("T")[0],
                                 new Float(info.getDouble("amount")),
-                                info.getString("remark")));
+                                info.getString("remark"),
+                                info.getString("is_checked").equals("1"),
+                                info.getString("id"),
+                                Glide.with(getContext())
+                                        .asBitmap()
+                                        .load(BASE_URL + ":" + FILE_PORT + "/" + info.getString("file"))
+                                        .centerCrop()
+                                        .into(60, 60)
+                                        .get())
+                        );
                     }
-                    ShowBillListviewAdapter adapter = new ShowBillListviewAdapter(getActivity(), showBillListviewBeans);
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            msheetListView.setAdapter(adapter);
-
-                            msheetListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                                    confirmDialog.show();
-                                    confirmDialog.setMessage("Do you want to Download?");
-                                    confirmDialog.setConfirmListener(new ConfirmDialog.ConfirmListener() {
-                                        @Override
-                                        public void onConfirm() {
-                                            Toast.makeText(getActivity(), "SAVING...." , Toast.LENGTH_LONG).show();
-                                            saveImage(bitmap);
-                                        }
-                                        @Override
-                                        public void onCancel() {
-
-                                        }
-                                    });
-                                }
+                            mSheetListView.setAdapter(adapter);
+                            mSheetListView.setOnItemClickListener((parent, view, position, id) -> {
+                                confirmDialog.show();
+                                confirmDialog.setMessage("Do you want to Download?");
+                                confirmDialog.setConfirmListener(new ConfirmDialog.ConfirmListener() {
+                                    @Override
+                                    public void onConfirm() {
+                                        Toast.makeText(getActivity(), "SAVING...." , Toast.LENGTH_LONG).show();
+                                        saveImage(showBillListviewBeans.get(position).saveBitmap);
+                                    }
+                                    @Override
+                                    public void onCancel() {
+                                    }
+                                });
                             });
-                            msheetListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                            mSheetListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                                 @Override
                                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                                     return false;
                                 }
                             });
-                            }
+                        }
                     });
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -151,7 +162,7 @@ public class HomeFragment extends Fragment {
     private void saveImage(Bitmap image) {
         String saveImagePath = null;
         Random random = new Random();
-        String imageFileName = "JPEG_" + "down" + random.nextInt(10) + ".jpg";
+        String imageFileName = "bxb" + "JEPG" + random.nextInt(10) + ".jpg";
         File storageDir = new File(Environment.getExternalStoragePublicDirectory
                 (Environment.DIRECTORY_PICTURES) + "test");
 
@@ -170,11 +181,9 @@ public class HomeFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            // Add the image to e system gallery
             galleryAddPic(saveImagePath);
             Toast.makeText(getActivity(), "IMAGE SAVED", Toast.LENGTH_LONG).show();
         }
-//        return saveImagePath;
     }
 
     private void galleryAddPic(String imagePath) {

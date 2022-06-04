@@ -174,6 +174,35 @@ public class InfoInteract {
         });
     }
 
+    public static void checkBillStatus(int billStatus, String id, final InfoInteract.getCallback callback) {
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        Map m = new HashMap();
+        m.put("billStatus", billStatus);
+        m.put("id", id);
+        JSONObject jsonObject = new JSONObject(m);
+        String jsonStr = jsonObject.toString();
+        RequestBody requestBodyJson = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonStr);
+        Request request = new Request.Builder()
+                .url(BASE_URL + ":" + PORT + "/billStatus")
+                .addHeader("contentType", "application/json;charset=utf-8")
+                .post(requestBodyJson)
+                .build();
+        final Call call = client.newCall(request);
+
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                Log.e("onFilure", e.getMessage());
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                String result = response.body().string();
+                callback.onSuccess(result);
+            }
+        });
+    }
+
     public interface getCallback {
         void onSuccess(String result);
     }

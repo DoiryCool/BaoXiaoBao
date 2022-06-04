@@ -1,26 +1,29 @@
 package com.doiry.baoxiaobao.adapter;
 
+import static com.doiry.baoxiaobao.interact.InfoInteract.checkBillStatus;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.doiry.baoxiaobao.R;
-import com.doiry.baoxiaobao.beans.BindedListviewBeans;
 import com.doiry.baoxiaobao.beans.ShowBillListviewBeans;
+import com.doiry.baoxiaobao.interact.InfoInteract;
 
 import java.util.List;
 
-public class ShowBillListviewAdapter extends BaseAdapter implements
-        AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+public class ShowBillListviewAdapter extends BaseAdapter {
     private Context mContext;
     private List<ShowBillListviewBeans> mBindInfo;
+
+    public Boolean ifOpen = false;
 
     public ShowBillListviewAdapter(Context context, List<ShowBillListviewBeans> bindedInfo_list){
         mContext = context;
@@ -50,8 +53,10 @@ public class ShowBillListviewAdapter extends BaseAdapter implements
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_list_bill, null);
             holder.iv_icon = convertView.findViewById(R.id.showBillProfileImage);
             holder.tv_name = convertView.findViewById(R.id.showBillCommitterName);
-            holder.tv_amount = convertView.findViewById(R.id.showBillCommitterAmount);
-            holder.tv_description = convertView.findViewById(R.id.showBillDescription);
+            holder.tv_time = convertView.findViewById(R.id.tv_sheet_time);
+            holder.tv_amount = convertView.findViewById(R.id.tv_sheet_amount);
+            holder.tv_description = convertView.findViewById(R.id.tv_sheet_remark);
+            holder.cb_ifProcessed = convertView.findViewById(R.id.cb_sheet_status);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -59,29 +64,33 @@ public class ShowBillListviewAdapter extends BaseAdapter implements
         ShowBillListviewBeans showBillListviewBeans = mBindInfo.get(position);
         holder.iv_icon.setImageBitmap(showBillListviewBeans.bitmap);
         holder.tv_name.setText(showBillListviewBeans.name);
+        holder.tv_time.setText(showBillListviewBeans.time);
         holder.tv_amount.setText(showBillListviewBeans.amout.toString());
         holder.tv_description.setText("Remark : \n" + showBillListviewBeans.description);
+        holder.cb_ifProcessed.setChecked(showBillListviewBeans.check);
         holder.iv_icon.requestFocus();
+        holder.cb_ifProcessed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                checkBillStatus(1, showBillListviewBeans.id, new InfoInteract.getCallback() {
+                    @SuppressLint("ResourceType")
+                    @Override
+                    public void onSuccess(String result) {
+
+                    }
+                });
+            }
+        });
         return convertView;
     }
 
     public final class ViewHolder {
         public ImageView iv_icon;
         public TextView tv_name;
+        public TextView tv_time;
         public TextView tv_amount;
+        public CheckBox cb_ifProcessed;
         public TextView tv_description;
     }
 
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        @SuppressLint("DefaultLocale") String desc = String.format("You clicked line %d , The name is %s", position + 1,
-                mBindInfo.get(position).name);
-        Toast.makeText(mContext, desc, Toast.LENGTH_LONG).show();
-    }
-
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        @SuppressLint("DefaultLocale") String desc = String.format("You clicked line %d , The name is %s", position + 1,
-                mBindInfo.get(position).name);
-        Toast.makeText(mContext, desc, Toast.LENGTH_LONG).show();
-        return true;
-    }
 }

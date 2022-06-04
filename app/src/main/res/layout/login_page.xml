@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="50dp"
-            android:src="@drawable/cooltext412052088300000"/>
+            android:src="@drawable/login_title_show"/>
 
         <TableLayout
             android:id="@+id/tableLayout"

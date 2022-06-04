@@ -38,7 +38,31 @@
                 android:textColor="@color/shallowBlue"
                 android:textSize="20sp"
                 tools:ignore="RtlSymmetry" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingStart="5dp"
+                    android:text="TIME:"
+                    android:textColor="#1E1717"
+                    android:textSize="16sp"></TextView>
+
+                <TextView
+                    android:id="@+id/tv_sheet_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:gravity="center"
+                    android:text="2001-11-06">
+
+                </TextView>
+
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -54,7 +78,7 @@
                     android:textSize="16sp"></TextView>
 
                 <TextView
-                    android:id="@+id/showBillCommitterAmount"
+                    android:id="@+id/tv_sheet_amount"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="5dp"
@@ -77,7 +101,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/showBillDescription"
+        android:id="@+id/tv_sheet_remark"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginTop="5dp"
@@ -85,4 +109,20 @@
         android:paddingStart="15dp"
         android:text="Description"
         android:textSize="16sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="right">
+
+        <CheckBox
+            android:id="@+id/cb_sheet_status"
+            android:layout_width="21dp"
+            android:layout_height="27dp"
+            android:layout_marginRight="5dp"
+            android:focusable="false"
+            android:layout_gravity="center"
+            android:gravity="right" />
+
+    </LinearLayout>
+
 </LinearLayout>
