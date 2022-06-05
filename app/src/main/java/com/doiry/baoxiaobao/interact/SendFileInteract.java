@@ -1,6 +1,5 @@
 package com.doiry.baoxiaobao.interact;
 
-
 import static com.doiry.baoxiaobao.utils.configs.BASE_URL;
 import static com.doiry.baoxiaobao.utils.configs.PORT;
 
@@ -8,44 +7,40 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import org.json.JSONObject;
-
+import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * The type Login interact.
+ * The type Send file interact.
  */
-public class LoginInteract {
-    public void checkAccount(String phs,
-                             String ps,
-                             final loginCallback callback) {
-        OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .callTimeout(120, TimeUnit.SECONDS)
-                .pingInterval(5, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .writeTimeout(60, TimeUnit.SECONDS).build();
-        Map map = new HashMap();
-        map.put("phone", phs);
-        map.put("password", ps);
-        JSONObject jsonObject = new JSONObject(map);
-        String jsonStr = jsonObject.toString();
-        RequestBody requestBodyJson = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonStr);
+public class SendFileInteract {
+    private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/*");
+    public static void sendFile(String uid, File file, String desc, String t_id, String amount, final SendFileInteract.sendFileCallback callback) {
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        RequestBody fileBody = RequestBody.create(MEDIA_TYPE_PNG, file);
+
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("file", "jpg.jpg", fileBody)
+                .addFormDataPart("uid", uid)
+                .addFormDataPart("remark", desc)
+                .addFormDataPart("t_id", t_id)
+                .addFormDataPart("amount", amount)
+                .build();
+
         Request request = new Request.Builder()
-                .url(BASE_URL + ":" + PORT + "/userLogin")
+                .url(BASE_URL + ":" + PORT + "/commit")
                 .addHeader("contentType", "application/json;charset=utf-8")
-                .post(requestBodyJson)
+                .post(requestBody)
                 .build();
         final Call call = client.newCall(request);
 
@@ -58,13 +53,12 @@ public class LoginInteract {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 String result = response.body().string();
-                call.cancel();
                 callback.onSuccess(result);
             }
         });
     }
 
-    public interface loginCallback {
+    public interface sendFileCallback {
         void onSuccess(String result);
     }
 }

@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -31,6 +33,9 @@ import androidx.core.app.ActivityCompat;
 import com.doiry.baoxiaobao.R;
 import com.doiry.baoxiaobao.adapter.BindedListviewAdapter;
 import com.doiry.baoxiaobao.beans.BindedListviewBeans;
+import com.doiry.baoxiaobao.interact.InfoInteract;
+import com.doiry.baoxiaobao.interact.SendFileInteract;
+import com.doiry.baoxiaobao.ui.login.LoginActivity;
 import com.doiry.baoxiaobao.utils.RealPathFromUriUtils;
 
 import org.json.JSONArray;
@@ -63,8 +68,8 @@ public class CommitWorksheetActivity extends AppCompatActivity {
     private Button mChooseFileButton = null;
     private Button mUploadFileButton = null;
     private Spinner mBindedSpinner = null;
-    private File mFile;
-    private String mFilePath;
+    private File mFile = null;
+    private String mFilePath = null;
     public int seletedNum = 0;
     private int type;
     private String token;
@@ -85,14 +90,14 @@ public class CommitWorksheetActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(CommitWorksheetActivity.this,
                 new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
 
-        mBackImage = (ImageView) findViewById(R.id.commmitBack);
-        mshowImage = (ImageView) findViewById(R.id.iv_show_image);
-        mBindedSpinner = (Spinner) findViewById(R.id.commmitBindedSpinner);
-        mChooseFileButton = (Button) findViewById(R.id.btn_choose_file);
-        mUploadFileButton = (Button) findViewById(R.id.btn_upload_commit);
-        mFilePwdShow = (TextView) findViewById(R.id.tv_show_choose_file);
-        mRemarkEdit = (EditText) findViewById(R.id.et_description);
-        mAmountEdit = (EditText) findViewById(R.id.ev_amount);
+        mBackImage = findViewById(R.id.commmitBack);
+        mshowImage = findViewById(R.id.iv_show_image);
+        mBindedSpinner = findViewById(R.id.commmitBindedSpinner);
+        mChooseFileButton = findViewById(R.id.btn_choose_file);
+        mUploadFileButton = findViewById(R.id.btn_upload_commit);
+        mFilePwdShow = findViewById(R.id.tv_show_choose_file);
+        mRemarkEdit = findViewById(R.id.et_description);
+        mAmountEdit = findViewById(R.id.ev_amount);
         mRemarkEdit.setFocusedByDefault(false);
         init();
     }
@@ -135,21 +140,22 @@ public class CommitWorksheetActivity extends AppCompatActivity {
         mUploadFileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendFileUtil.sendFile(uid, mFile, mRemarkEdit.getText().toString(), teacher_uid.get(seletedNum), mAmountEdit.getText().toString(), new sendFileUtil.sendFileCallback() {
+                SendFileInteract.sendFile(uid, mFile, mRemarkEdit.getText().toString(), teacher_uid.get(seletedNum), mAmountEdit.getText().toString(), new SendFileInteract.sendFileCallback() {
                     @SuppressLint("ResourceType")
                     @Override
                     public void onSuccess(String result) {
-                        try {
-                            JSONArray jsonArray = new JSONArray(result);
-                            } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        Looper.prepare();
+                        Toast.makeText(CommitWorksheetActivity.this, "Upload Successfully!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(CommitWorksheetActivity.this,MainActivity.class);
+                        CommitWorksheetActivity.this.startActivity(intent);
+                        finish();
+                        Looper.loop();
                     }
                 });
             }
         });
 
-        getBindedInfoUtil.getInfo(token, type, new getBindedInfoUtil.getBindedInfoCallback() {
+        InfoInteract.getbindedInfo(token, type, new InfoInteract.getCallback() {
             @SuppressLint("ResourceType")
             @Override
             public void onSuccess(String result) {
@@ -181,10 +187,7 @@ public class CommitWorksheetActivity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -195,92 +198,12 @@ public class CommitWorksheetActivity extends AppCompatActivity {
         }
         if (requestCode == 0 && resultCode == -1) {
             Uri uri = data.getData();
-            String realPathFromUri = RealPathFromUriUtils.getRealPathFromUri(this, data.getData());
-            mFilePath = realPathFromUri;
+            mFilePath = RealPathFromUriUtils.getRealPathFromUri(this, data.getData());
             mFile = new File(mFilePath);
             mFilePwdShow.setText(mFile.getName());
             if(mFile.getName().endsWith(".jpg")){
                 mshowImage.setImageURI(uri);
             }
         }
-    }
-}
-
-class getBindedInfoUtil {
-    public static void getInfo(String token, int type, final getBindedInfoUtil.getBindedInfoCallback callback) {
-        OkHttpClient client = new OkHttpClient.Builder().build();
-        Map m = new HashMap();
-        m.put("token", token);
-        JSONObject jsonObject = new JSONObject(m);
-        String jsonStr = jsonObject.toString();
-        String sendPost = "/bindedInfo";
-        if(type == 1){
-            sendPost = "/bindedInfoT";
-        }
-        RequestBody requestBodyJson = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonStr);
-        Request request = new Request.Builder()
-                .url(BASE_URL + ":" + PORT + sendPost)
-                .addHeader("contentType", "application/json;charset=utf-8")
-                .post(requestBodyJson)
-                .build();
-        final Call call = client.newCall(request);
-
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Log.e("onFilure", e.getMessage());
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                String result = response.body().string();
-                callback.onSuccess(result);
-            }
-        });
-    }
-
-    public interface getBindedInfoCallback {
-        void onSuccess(String result);
-    }
-}
-
-class sendFileUtil {
-    private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/*");
-    public static void sendFile(String uid, File file, String desc, String t_id, String amount, final sendFileUtil.sendFileCallback callback) {
-        OkHttpClient client = new OkHttpClient.Builder().build();
-        RequestBody fileBody = RequestBody.create(MEDIA_TYPE_PNG, file);
-
-        RequestBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("file", "jpg.jpg", fileBody)
-                .addFormDataPart("uid", uid)
-                .addFormDataPart("remark", desc)
-                .addFormDataPart("t_id", t_id)
-                .addFormDataPart("amount", amount)
-                .build();
-
-        Request request = new Request.Builder()
-                .url(BASE_URL + ":" + PORT + "/commit")
-                .addHeader("contentType", "application/json;charset=utf-8")
-                .post(requestBody)
-                .build();
-        final Call call = client.newCall(request);
-
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Log.e("onFilure", e.getMessage());
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                String result = response.body().string();
-                callback.onSuccess(result);
-            }
-        });
-    }
-
-    public interface sendFileCallback {
-        void onSuccess(String result);
     }
 }

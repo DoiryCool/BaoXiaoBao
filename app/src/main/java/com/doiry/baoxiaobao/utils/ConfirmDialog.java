@@ -26,7 +26,7 @@ public class ConfirmDialog extends Dialog implements View.OnClickListener{
 
     private ConfirmListener confirmListener;//确认按钮的回调
 
-    private boolean showCancelButton;//是否需要显示取消按钮
+    private final boolean showCancelButton;//是否需要显示取消按钮
 
     public ConfirmDialog(Context context,boolean showCancelButton) {
         super(context);
@@ -56,7 +56,6 @@ public class ConfirmDialog extends Dialog implements View.OnClickListener{
             tvMessage.setText(message);
         }
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

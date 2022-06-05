@@ -22,6 +22,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * The type Info interact.
+ */
 public class InfoInteract {
     public static void getProfile(String phs, final InfoInteract.getCallback callback) {
         OkHttpClient client = new OkHttpClient.Builder()

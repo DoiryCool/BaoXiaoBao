@@ -38,18 +38,7 @@ public class ProfileFragment extends Fragment {
 
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
         init();
-
-        binding.btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sp.edit().putBoolean("AUTO_ISCHECK", false).commit();
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
-                getActivity().finish();
-            }
-        });
         return root;
     }
 
@@ -60,6 +49,15 @@ public class ProfileFragment extends Fragment {
     }
 
     public void init(){
+        binding.btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sp.edit().putBoolean("AUTO_ISCHECK", false).apply();
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
         binding.telephoneShow.setText(sp.getString("USER_NAME", ""));
         binding.tvProfileUid.setText(sp.getString("uid", "1234589123"));
         InfoInteract.getProfile(sp.getString("USER_NAME", ""), new InfoInteract.getCallback() {

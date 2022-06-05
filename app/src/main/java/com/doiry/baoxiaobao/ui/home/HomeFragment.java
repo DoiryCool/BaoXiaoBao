@@ -4,7 +4,6 @@ import static com.doiry.baoxiaobao.utils.configs.BASE_URL;
 import static com.doiry.baoxiaobao.utils.configs.FILE_PORT;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,14 +39,11 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private ListView mSheetListView;
-    private CountDownLatch countDownLatch = new CountDownLatch(2);
-    Bitmap bitmap;
 
     List<ShowBillListviewBeans> showBillListviewBeans;
     List<Bitmap> bitmaps;
@@ -59,11 +55,13 @@ public class HomeFragment extends Fragment {
     final Handler handler = new Handler();
     public static final String PREFERENCE_NAME = "SaveSetting";
     public static int MODE = Context.MODE_ENABLE_WRITE_AHEAD_LOGGING;
+    /**
+     * The Confirm dialog.
+     */
     ConfirmDialog confirmDialog = null;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
 
         confirmDialog = new ConfirmDialog(getContext(), true);
         binding = FragmentHomeBinding.inflate(inflater, container, false);
@@ -73,10 +71,8 @@ public class HomeFragment extends Fragment {
         @SuppressLint("WrongConstant") SharedPreferences sp = requireActivity().getSharedPreferences(PREFERENCE_NAME,MODE);
         uid = sp.getString("uid", "");
         type = sp.getInt("USER_TYPE", 1);
-
-        initView();
-
         View root = binding.getRoot();
+        initView();
         return root;
     }
 
@@ -86,11 +82,9 @@ public class HomeFragment extends Fragment {
         binding = null;
     }
 
-    public int initView(){
-
+    public void initView(){
         mSheetListView = binding.lvSheetlist;
         mSheetListView.setFocusable(false);
-
         InfoInteract.getBills(type, uid, new InfoInteract.getCallback() {
             @SuppressLint("ResourceType")
             @Override
@@ -156,7 +150,6 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-        return 0;
     }
 
     private void saveImage(Bitmap image) {
@@ -180,7 +173,6 @@ public class HomeFragment extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             galleryAddPic(saveImagePath);
             Toast.makeText(getActivity(), "IMAGE SAVED", Toast.LENGTH_LONG).show();
         }
